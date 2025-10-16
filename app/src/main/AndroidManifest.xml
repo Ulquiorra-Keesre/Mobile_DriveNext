@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -14,7 +16,7 @@
 
         <!-- SplashActivity — точка входа -->
         <activity
-            android:name=".SplashActivity"
+            android:name=".ui.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,11 +26,19 @@
 
         <!-- Остальные активности -->
         <activity
-            android:name=".LoginActivity"
+            android:name=".ui.LoginActivity"
             android:exported="false" />
 
         <activity
-            android:name=".HomeActivity"
+            android:name=".ui.HomeActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.NoInternetActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.Onboarding.OnboardingActivity"
             android:exported="false" />
 
     </application>
