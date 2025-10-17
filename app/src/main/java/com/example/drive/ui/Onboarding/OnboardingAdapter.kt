@@ -29,6 +29,7 @@ class OnboardingAdapter(private val slides: List<Slide>) :
         holder.image.setImageResource(slide.imageRes)
         holder.title.text = slide.title
         holder.description.text = slide.description
+        println("Binding slide: ${slide.title}")
     }
 
     override fun getItemCount() = slides.size
