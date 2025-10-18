@@ -12,6 +12,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.example.drive.ui.Onboarding.OnboardingAdapter
 import com.example.drive.ui.LoginActivity
 import com.example.drive.ui.Onboarding.Slide
+import androidx.core.content.ContextCompat
 
 class OnboardingActivity : AppCompatActivity() {
 
@@ -51,13 +52,31 @@ class OnboardingActivity : AppCompatActivity() {
         val adapter = OnboardingAdapter(slides)
         viewPager.adapter = adapter
 
-        TabLayoutMediator(tabLayout, viewPager) { _, _ -> }.attach()
+        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+            // Не показываем текст, только индикатор
+            tab.view.background = if (position == viewPager.currentItem) {
+                ContextCompat.getDrawable(this, R.drawable.tab_selected)
+            } else {
+                ContextCompat.getDrawable(this, R.drawable.tab_unselected)
+            }
+        }.attach()
 
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                // Перерисовываем все табы при смене страницы
+                for (i in 0 until tabLayout.tabCount) {
+                    val tab = tabLayout.getTabAt(i)
+                    tab?.view?.background = if (i == position) {
+                        ContextCompat.getDrawable(this@OnboardingActivity, R.drawable.tab_selected)
+                    } else {
+                        ContextCompat.getDrawable(this@OnboardingActivity, R.drawable.tab_unselected)
+                    }
+                }
+
                 when (position) {
                     slides.lastIndex -> {
-                        btnSkip.visibility = View.GONE
+                        btnSkip.visibility = View.VISIBLE
                         btnNext.visibility = View.GONE
                         btnGetStarted.visibility = View.VISIBLE
                     }
