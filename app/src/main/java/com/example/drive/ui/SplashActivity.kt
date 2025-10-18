@@ -9,6 +9,7 @@ import android.preference.PreferenceManager
 import androidx.appcompat.app.AppCompatActivity
 import com.example.drive.R
 import android.content.Context
+import com.example.drive.ui.Authentication_Registration.GettingStartedActivity
 import com.example.drive.ui.Onboarding.OnboardingActivity
 
 class SplashActivity : AppCompatActivity() {
@@ -34,7 +35,7 @@ class SplashActivity : AppCompatActivity() {
                 } else if (shouldShowOnboarding()) {
                     startActivity(Intent(this, OnboardingActivity::class.java))
                 } else {
-                    startActivity(Intent(this, LoginActivity::class.java))
+                    startActivity(Intent(this, GettingStartedActivity::class.java))
                 }
                 finish()
             }

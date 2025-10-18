@@ -26,7 +26,7 @@
 
         <!-- Остальные активности -->
         <activity
-            android:name=".ui.LoginActivity"
+            android:name=".ui.Authentication_Registration.LoginActivity"
             android:exported="false" />
 
         <activity
@@ -40,6 +40,16 @@
         <activity
             android:name=".ui.Onboarding.OnboardingActivity"
             android:exported="false" />
+
+        <activity
+            android:name=".ui.Authentication_Registration.GettingStartedActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.Authentication_Registration.RegisterActivity"
+            android:exported="false" />
+
+
 
     </application>
 

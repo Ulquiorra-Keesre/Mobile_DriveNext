@@ -11,7 +11,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.drive.R
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.example.drive.ui.LoginActivity
+import com.example.drive.ui.Authentication_Registration.LoginActivity
 import com.example.drive.ui.Onboarding.OnboardingAdapter
 import com.example.drive.ui.Onboarding.Slide
 
