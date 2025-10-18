@@ -5,8 +5,6 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.example.drive.R
-import com.example.drive.ui.Authentication_Registration.LoginActivity
-import com.example.drive.ui.Authentication_Registration.RegisterActivity
 
 class GettingStartedActivity : AppCompatActivity() {
 
@@ -22,7 +20,7 @@ class GettingStartedActivity : AppCompatActivity() {
         }
 
         registerButton.setOnClickListener {
-            startActivity(Intent(this, RegisterActivity::class.java))
+            startActivity(Intent(this, RegisterActivity1::class.java))
         }
     }
 }

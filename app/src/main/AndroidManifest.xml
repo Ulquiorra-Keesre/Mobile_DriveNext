@@ -46,9 +46,16 @@
             android:exported="false" />
 
         <activity
-            android:name=".ui.Authentication_Registration.RegisterActivity"
+            android:name=".ui.Authentication_Registration.RegisterActivity1"
             android:exported="false" />
 
+        <activity
+            android:name=".ui.Authentication_Registration.RegisterActivity2"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.Authentication_Registration.RegisterActivity3"
+            android:exported="false" />
 
 
     </application>

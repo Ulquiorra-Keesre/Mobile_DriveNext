@@ -12,7 +12,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.drive.R
 import com.example.drive.ui.NoInternetActivity
-import com.example.drive.ui.Authentication_Registration.RegisterActivity // ← убедитесь в правильном пути
 
 class LoginActivity : AppCompatActivity() {
 
@@ -87,7 +86,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         registerLink.setOnClickListener {
-            startActivity(Intent(this, RegisterActivity::class.java))
+            startActivity(Intent(this, RegisterActivity1::class.java))
         }
     }
 
