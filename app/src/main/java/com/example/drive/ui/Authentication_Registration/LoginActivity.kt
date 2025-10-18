@@ -55,6 +55,20 @@ class LoginActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            if (!isValidEmail(email)) {
+                emailEditText.error = "Введите корректный email (например, user@example.com)"
+                emailEditText.requestFocus()
+                return@setOnClickListener
+            }
+
+            // Валидация пароля
+            val passwordError = validatePassword(password)
+            if (passwordError != null) {
+                passwordEditText.error = passwordError
+                passwordEditText.requestFocus()
+                return@setOnClickListener
+            }
+
             performLogin(email, password)
         }
 
@@ -75,6 +89,30 @@ class LoginActivity : AppCompatActivity() {
         registerLink.setOnClickListener {
             startActivity(Intent(this, RegisterActivity::class.java))
         }
+    }
+
+    private fun isValidEmail(email: String): Boolean {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+    }
+
+    private fun validatePassword(password: String): String? {
+
+        if (password.length < 8) {
+            return "Пароль должен содержать минимум 8 символов"
+        }
+
+        if (!password.any { it.isDigit() }) {
+            return "Пароль должен содержать хотя бы одну цифру"
+        }
+
+        if (!password.any { it.isUpperCase() }) {
+            return "Пароль должен содержать хотя бы одну заглавную букву"
+        }
+
+        if (!password.any { it in "!@#$%^&*()_+-=[]{}|;:,.<>?" }) {
+            return "Пароль должен содержать хотя бы один специальный символ"
+        }
+        return null
     }
 
     private fun performLogin(email: String, password: String) {
