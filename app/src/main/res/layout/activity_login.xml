@@ -127,17 +127,21 @@
         android:layout_marginTop="24dp" />
 
     <!-- Кнопка "Войти через Google" -->
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/googleLoginButton"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="Войти через Google"
-        android:textColor="#000000"
+        android:textColor="#2A1246"
         android:backgroundTint="@android:color/white"
-
-        android:strokeColor="#E0E0E0"
-        android:drawableStart="@drawable/google_icon"
-        android:drawablePadding="8dp"
+        app:iconTint="@null"
+        app:strokeColor="#E0E0E0"
+        app:strokeWidth="2dp"
+        app:icon="@drawable/google_icon"
+        app:iconGravity="textStart"
+        app:iconPadding="8dp"
+        app:cornerRadius="11dp"
+        app:iconSize="22dp"
         android:fontFamily="@font/montserrat_medium"
         app:layout_constraintTop_toBottomOf="@id/loginButton"
         app:layout_constraintStart_toStartOf="parent"
