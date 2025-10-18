@@ -12,6 +12,8 @@ import com.example.drive.R
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.example.drive.ui.LoginActivity
+import com.example.drive.ui.Onboarding.OnboardingAdapter
+import com.example.drive.ui.Onboarding.Slide
 
 class OnboardingActivity : AppCompatActivity() {
 
@@ -54,6 +56,16 @@ class OnboardingActivity : AppCompatActivity() {
         btnGetStarted.visibility = View.GONE
     }
 
+    private fun dpToPx(dp: Int): Int {
+        return (dp * resources.displayMetrics.density).toInt()
+    }
+
+    fun setIndicatorWidth(view: View, widthPx: Int) {
+        val newParams = view.layoutParams
+        newParams.width = widthPx
+        view.layoutParams = newParams
+    }
+
     private fun initIndicators() {
         indicator1 = findViewById(R.id.indicator1)
         indicator2 = findViewById(R.id.indicator2)
@@ -61,9 +73,17 @@ class OnboardingActivity : AppCompatActivity() {
     }
 
     private fun updateIndicators(position: Int) {
+        val advancedWidth = dpToPx(30)
+        val standardWidth = dpToPx(16)
+
+        setIndicatorWidth(indicator1, if (position == 0) advancedWidth else standardWidth)
+        setIndicatorWidth(indicator2, if (position == 1) advancedWidth else standardWidth)
+        setIndicatorWidth(indicator3, if (position == 2) advancedWidth else standardWidth)
+
         indicator1.background = ContextCompat.getDrawable(this, if (position == 0) R.drawable.tab_selected else R.drawable.tab_unselected)
         indicator2.background = ContextCompat.getDrawable(this, if (position == 1) R.drawable.tab_selected else R.drawable.tab_unselected)
         indicator3.background = ContextCompat.getDrawable(this, if (position == 2) R.drawable.tab_selected else R.drawable.tab_unselected)
+
     }
 
     private fun initViews() {
@@ -78,14 +98,17 @@ class OnboardingActivity : AppCompatActivity() {
         val adapter = OnboardingAdapter(slides)
         viewPager.adapter = adapter
 
+
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
+
                 super.onPageSelected(position)
+                println("Updating indicators for position: $position")
                 updateIndicators(position)
 
                 when (position) {
                     slides.lastIndex -> {
-                        btnSkip.visibility = View.GONE
+                        btnSkip.visibility = View.VISIBLE
                         btnNext.visibility = View.GONE
                         btnGetStarted.visibility = View.VISIBLE
                     }
@@ -97,7 +120,9 @@ class OnboardingActivity : AppCompatActivity() {
                 }
             }
         })
-    } // ← ЭТА СКОБКА ОБЯЗАТЕЛЬНА!
+
+        updateIndicators(0)
+    }
 
 
 

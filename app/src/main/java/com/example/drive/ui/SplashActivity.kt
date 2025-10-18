@@ -26,16 +26,18 @@ class SplashActivity : AppCompatActivity() {
         window.decorView.postDelayed({
             if (!isNetworkAvailable()) {
                 startActivity(Intent(this, NoInternetActivity::class.java))
-            } else if (isUserLoggedIn()) {
-                startActivity(Intent(this, HomeActivity::class.java))
+                // Оставляем SplashActivity активной — пользователь вернётся сюда после NoInternetActivity
             } else {
-                if (shouldShowOnboarding()) {
+                // Все остальные случаи — завершаем Splash
+                if (isUserLoggedIn()) {
+                    startActivity(Intent(this, HomeActivity::class.java))
+                } else if (shouldShowOnboarding()) {
                     startActivity(Intent(this, OnboardingActivity::class.java))
                 } else {
                     startActivity(Intent(this, LoginActivity::class.java))
                 }
+                finish()
             }
-            finish()
         }, 2500)
     }
 
