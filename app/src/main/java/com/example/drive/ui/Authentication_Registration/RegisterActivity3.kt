@@ -29,6 +29,7 @@ import android.Manifest
 
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.ActivityResultLauncher
+
 class RegisterActivity3 : AppCompatActivity() {
 
     private lateinit var profileIcon: ImageView
@@ -42,27 +43,50 @@ class RegisterActivity3 : AppCompatActivity() {
     private lateinit var currentPhotoUri: Uri
 
     companion object {
-        private const val REQUEST_IMAGE_CAPTURE = 1001
-        private const val REQUEST_PICK_IMAGE = 1002
         private const val REQUEST_GALLERY_PERMISSION = 1003
-        private const val REQUEST_PICK_LICENSE = 1004
-        private const val REQUEST_PICK_PASSPORT = 1005
+        private const val REQUEST_CAMERA_PERMISSION = 1004
     }
 
+    // Лаунчер для съемки фото
     private val takePictureLauncher = registerForActivityResult(
         ActivityResultContracts.TakePicture()
     ) { success ->
         if (success) {
             profileIcon.setImageURI(currentPhotoUri)
+        } else {
+            Toast.makeText(this, "Не удалось сделать фото", Toast.LENGTH_SHORT).show()
         }
     }
 
+    // Лаунчер для выбора фото из галереи
     private val pickImageLauncher = registerForActivityResult(
         ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
         uri?.let {
             profileIcon.setImageURI(it)
             currentPhotoUri = it
+        }
+    }
+
+    // Лаунчер для разрешения камеры
+    private val requestCameraPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted) {
+            dispatchTakePictureIntent()
+        } else {
+            Toast.makeText(this, "Разрешение на камеру необходимо для съемки фото", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    // Лаунчер для разрешения галереи
+    private val requestGalleryPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted) {
+            pickImageLauncher.launch("image/*")
+        } else {
+            Toast.makeText(this, "Разрешение необходимо для выбора фото", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -158,90 +182,103 @@ class RegisterActivity3 : AppCompatActivity() {
         builder.setTitle("Добавить фото")
         builder.setItems(options) { _, which ->
             when (which) {
-                0 -> dispatchTakePictureIntent()
-                1 -> openGallery()
+                0 -> checkCameraPermissionAndTakePicture()
+                1 -> checkGalleryPermissionAndPickImage()
             }
         }
         builder.show()
     }
 
+    private fun checkCameraPermissionAndTakePicture() {
+        when {
+            ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.CAMERA
+            ) == PackageManager.PERMISSION_GRANTED -> {
+                dispatchTakePictureIntent()
+            }
+            else -> {
+                requestCameraPermissionLauncher.launch(Manifest.permission.CAMERA)
+            }
+        }
+    }
+
+    private fun checkGalleryPermissionAndPickImage() {
+        val permission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            Manifest.permission.READ_MEDIA_IMAGES
+        } else {
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        }
+
+        when {
+            ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED -> {
+                pickImageLauncher.launch("image/*")
+            }
+            else -> {
+                requestGalleryPermissionLauncher.launch(permission)
+            }
+        }
+    }
+
     private fun dispatchTakePictureIntent() {
-        val photoFile = createImageFile()
-        currentPhotoUri = FileProvider.getUriForFile(this, "${packageName}.fileprovider", photoFile)
-        takePictureLauncher.launch(currentPhotoUri)
+        val photoFile = try {
+            createImageFile()
+        } catch (ex: IOException) {
+            Toast.makeText(this, "Не удалось создать файл для фото", Toast.LENGTH_SHORT).show()
+            null
+        }
+
+        photoFile?.let { file ->
+            currentPhotoUri = FileProvider.getUriForFile(
+                this,
+                "${packageName}.fileprovider",
+                file
+            )
+            takePictureLauncher.launch(currentPhotoUri)
+        }
     }
-
-
-
-private fun hasGalleryPermission(): Boolean {
-    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES) == PackageManager.PERMISSION_GRANTED
-    } else {
-        ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
-    }
-}
-
 
     @Throws(IOException::class)
     private fun createImageFile(): File {
+        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Calendar.getInstance().time)
         val storageDir = getExternalFilesDir(null) ?: throw IOException("External storage not available")
         return File.createTempFile(
-            "JPEG_${System.currentTimeMillis()}_",
+            "JPEG_${timeStamp}_",
             ".jpg",
             storageDir
         )
     }
 
-    private fun openGallery() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_MEDIA_IMAGES), REQUEST_GALLERY_PERMISSION)
-        } else {
-            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            intent.type = "image/*"
-            startActivityForResult(intent, REQUEST_PICK_IMAGE)
-        }
-    }
-
     private fun openGalleryForLicense() {
-        openGalleryWithResult(REQUEST_PICK_LICENSE)
+        val permission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            Manifest.permission.READ_MEDIA_IMAGES
+        } else {
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        }
+
+        when {
+            ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED -> {
+                pickLicenseLauncher.launch("image/*")
+            }
+            else -> {
+                ActivityCompat.requestPermissions(this, arrayOf(permission), REQUEST_GALLERY_PERMISSION)
+            }
+        }
     }
 
     private fun openGalleryForPassport() {
-        openGalleryWithResult(REQUEST_PICK_PASSPORT)
-    }
-
-    private fun openGalleryWithResult(requestCode: Int) {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_MEDIA_IMAGES), REQUEST_GALLERY_PERMISSION)
+        val permission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            Manifest.permission.READ_MEDIA_IMAGES
         } else {
-            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            intent.type = "image/*"
-            startActivityForResult(intent, requestCode)
+            Manifest.permission.READ_EXTERNAL_STORAGE
         }
-    }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (resultCode == RESULT_OK) {
-            when (requestCode) {
-                REQUEST_IMAGE_CAPTURE -> {
-                    profileIcon.setImageURI(currentPhotoUri)
-                }
-                REQUEST_PICK_IMAGE -> {
-                    data?.data?.let { uri ->
-                        profileIcon.setImageURI(uri)
-                        currentPhotoUri = uri
-                    }
-                }
-                REQUEST_PICK_LICENSE -> {
-                    Toast.makeText(this, "Фото водительского удостоверения загружено", Toast.LENGTH_SHORT).show()
-                    // Здесь можно сохранить URI или битмап для отправки на сервер
-                }
-                REQUEST_PICK_PASSPORT -> {
-                    Toast.makeText(this, "Фото паспорта загружено", Toast.LENGTH_SHORT).show()
-                    // Здесь можно сохранить URI или битмап для отправки на сервер
-                }
+        when {
+            ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED -> {
+                pickPassportLauncher.launch("image/*")
+            }
+            else -> {
+                ActivityCompat.requestPermissions(this, arrayOf(permission), REQUEST_GALLERY_PERMISSION)
             }
         }
     }
@@ -252,11 +289,21 @@ private fun hasGalleryPermission(): Boolean {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == REQUEST_GALLERY_PERMISSION) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                openGallery()
-            } else {
-                Toast.makeText(this, "Разрешение необходимо для выбора фото", Toast.LENGTH_SHORT).show()
+        when (requestCode) {
+            REQUEST_GALLERY_PERMISSION -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Можно показать диалог выбора или сразу запустить нужный лаунчер
+                    Toast.makeText(this, "Разрешение предоставлено", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this, "Разрешение необходимо для выбора фото", Toast.LENGTH_SHORT).show()
+                }
+            }
+            REQUEST_CAMERA_PERMISSION -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    dispatchTakePictureIntent()
+                } else {
+                    Toast.makeText(this, "Разрешение на камеру необходимо для съемки фото", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
