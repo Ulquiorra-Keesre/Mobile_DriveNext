@@ -142,7 +142,7 @@ class RegisterActivity2 : AppCompatActivity() {
         // 2. Перейти на HomeActivity
         // 3. Закрыть RegisterActivity2
         startActivity(Intent(this, RegisterActivity3::class.java))
-        finish()
+
     }
 
     private fun isNetworkAvailable(): Boolean {

@@ -1,6 +1,226 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="24dp"
+    android:background="@android:color/white"
+    tools:context=".ui.Authentication_Registration.RegisterActivity3">
+
+    <!-- Заголовок -->
+    <TextView
+        android:id="@+id/titleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Создать аккаунт"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="#000000"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="24dp" />
+
+    <!-- Кнопка "Назад" -->
+    <ImageView
+        android:id="@+id/backButton"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/arrow"
+        android:contentDescription="Назад"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="8dp" />
+
+    <!-- Иконка профиля -->
+    <ImageView
+        android:id="@+id/profileIcon"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:src="@drawable/profile"
+        android:contentDescription="Фото профиля"
+        app:layout_constraintTop_toBottomOf="@id/titleText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="22dp" />
+
+    <!-- Кнопка добавления фото -->
+    <ImageView
+        android:id="@+id/addPhotoButton"
+        android:layout_width="20dp"
+        android:layout_height="18.95dp"
+        android:src="@drawable/plus"
+        android:contentDescription="Добавить фото"
+        app:iconSize="2dp"
+        app:layout_constraintTop_toBottomOf="@id/profileIcon"
+        app:layout_constraintEnd_toEndOf="@id/profileIcon"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="-18dp" />
+
+    <!-- Текст подсказки -->
+    <TextView
+        android:id="@+id/infoText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Добавление фотографии поможет владельцам и арендаторам узнать друг друга, когда они будут забирать машину"
+        android:textSize="14sp"
+        android:textColor="#666666"
+
+        app:layout_constraintTop_toBottomOf="@id/profileIcon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
+
+    <!-- Поле "Номер водительского удостоверения" -->
+    <TextView
+        android:id="@+id/licenseNumberLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Номер водительского удостоверения"
+        android:textSize="14sp"
+        android:textColor="#333333"
+        app:layout_constraintTop_toBottomOf="@id/infoText"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="15dp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/licenseNumberInputLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="0000000000"
+        app:layout_constraintTop_toBottomOf="@id/licenseNumberLabel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/issueDateLabel"
+        android:layout_marginBottom="28dp"
+        android:layout_marginTop="8dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/licenseNumberEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Поле "Дата выдачи" -->
+    <TextView
+        android:id="@+id/issueDateLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Дата выдачи"
+        android:textSize="14sp"
+        android:textColor="#333333"
+        app:layout_constraintTop_toBottomOf="@id/licenseNumberInputLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="15dp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/issueDateInputLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="DD/MM/YYYY"
+        app:startIconDrawable="@drawable/calendar"
+        app:layout_constraintTop_toBottomOf="@id/issueDateLabel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/issueDateEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="date"
+            android:focusable="false"
+            android:clickable="true"
+            android:paddingTop="5dp"
+            android:paddingStart="40dp"
+            android:paddingEnd="8dp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Загрузка фото водительского удостоверения -->
+    <TextView
+        android:id="@+id/licensePhotoLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Загрузите фото водительского удостоверения"
+        android:textSize="14sp"
+        android:textColor="#333333"
+        app:layout_constraintTop_toBottomOf="@id/issueDateInputLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="15dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/upload_license"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:text="Загрузить фото"
+        android:textColor="#2A1246"
+
+        app:strokeColor="#2A1246"
+        app:cornerRadius="8dp"
+        app:icon="@drawable/upload"
+        android:backgroundTint="#FFFFFF"
+        android:gravity="start"
+        android:paddingTop="8dp"
+        app:iconTint="@null"
+        app:iconSize="33dp"
+        android:fontFamily="@font/montserrat_medium"
+        app:layout_constraintTop_toBottomOf="@id/licensePhotoLabel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp" />
+
+    <!-- Загрузка фото паспорта -->
+    <TextView
+        android:id="@+id/passportPhotoLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Загрузите фото паспорта"
+        android:textSize="14sp"
+        android:textColor="#333333"
+        app:layout_constraintTop_toBottomOf="@id/upload_license"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="15dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/upload_passport"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:text="Загрузить фото"
+        android:textColor="#2A1246"
+
+        app:strokeColor="#2A1246"
+        app:cornerRadius="8dp"
+        app:icon="@drawable/upload"
+        android:backgroundTint="#FFFFFF"
+        android:gravity="start"
+        android:paddingTop="8dp"
+        app:iconTint="@null"
+        app:iconSize="33dp"
+        android:fontFamily="@font/montserrat_medium"
+        app:layout_constraintTop_toBottomOf="@id/passportPhotoLabel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp" />
+
+    <!-- Кнопка "Далее" -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/nextButton"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:text="Далее"
+        android:textColor="@android:color/white"
+        android:backgroundTint="#2A1246"
+        android:fontFamily="@font/montserrat_medium"
+        app:cornerRadius="8dp"
+        app:layout_constraintTop_toBottomOf="@id/upload_passport"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="2dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

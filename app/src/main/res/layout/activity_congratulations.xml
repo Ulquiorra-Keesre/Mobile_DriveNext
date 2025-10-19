@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="24dp"
+    android:background="@android:color/white"
+    tools:context=".ui.CongratulationsActivity">
+
+    <!-- Заголовок -->
+    <TextView
+        android:id="@+id/titleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Пользуйтесь с удовольствием"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="#000000"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="24dp" />
+
+    <!-- Иконка галочки -->
+    <ImageView
+        android:id="@+id/checkIcon"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/check"
+        android:contentDescription="Успешно"
+        app:layout_constraintTop_toBottomOf="@id/titleText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="132dp" />
+
+    <!-- Текст "Поздравляем" -->
+    <TextView
+        android:id="@+id/congratsText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Поздравляем"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="#000000"
+        app:layout_constraintTop_toBottomOf="@id/checkIcon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="24dp" />
+
+    <!-- Описание -->
+    <TextView
+        android:id="@+id/infoText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Вы успешно зарегистрировались.\nОбработка ваших персональных данных займет около двух часов. Спасибо за ожидание."
+        android:textSize="14sp"
+        android:textColor="#666666"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/congratsText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
+
+    <!-- Кнопка "Далее" -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/nextButton"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:text="Далее"
+        android:textColor="@android:color/white"
+        android:backgroundTint="#2A1246"
+        android:fontFamily="@font/montserrat_medium"
+        app:cornerRadius="8dp"
+        app:layout_constraintTop_toBottomOf="@id/infoText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="247dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

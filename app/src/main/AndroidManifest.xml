@@ -1,62 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    package="com.example.drive"
+    android:versionCode="1"
+    android:versionName="1.0" >
 
+    <uses-sdk
+        android:minSdkVersion="24"
+        android:targetSdkVersion="36" />
+
+    <!-- Разрешения -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- Дополнительные разрешения для работы с камерой и галереей -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <!-- Разрешение для DUMP (требуется ProfileInstallReceiver) -->
+    <uses-permission android:name="android.permission.DUMP" />
+
+    <!-- Фичи -->
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
+
+    <!-- Кастомное разрешение для динамических ресиверов -->
+    <permission
+        android:name="com.example.drive.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.example.drive.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
 
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
+        android:debuggable="true"
+        android:extractNativeLibs="false"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Drive">
+        android:testOnly="true"
+        android:theme="@style/Theme.Drive" >
 
         <!-- SplashActivity — точка входа -->
         <activity
-            android:name=".ui.SplashActivity"
-            android:exported="true">
+            android:name="com.example.drive.ui.SplashActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <!-- Остальные активности -->
+        <!-- Основные активности -->
         <activity
-            android:name=".ui.Authentication_Registration.LoginActivity"
+            android:name="com.example.drive.ui.Authentication_Registration.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.example.drive.ui.HomeActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.example.drive.ui.NoInternetActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.example.drive.ui.Onboarding.OnboardingActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.example.drive.ui.Authentication_Registration.GettingStartedActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.example.drive.ui.Authentication_Registration.RegisterActivity1"
+            android:exported="false" />
+        <activity
+            android:name="com.example.drive.ui.Authentication_Registration.RegisterActivity2"
             android:exported="false" />
 
+        <!-- RegisterActivity3 с дополнительными настройками -->
         <activity
-            android:name=".ui.HomeActivity"
-            android:exported="false" />
+            android:name="com.example.drive.ui.Authentication_Registration.RegisterActivity3"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
 
         <activity
-            android:name=".ui.NoInternetActivity"
+            android:name="com.example.drive.ui.CongratulationsActivity"
             android:exported="false" />
 
-        <activity
-            android:name=".ui.Onboarding.OnboardingActivity"
-            android:exported="false" />
+        <!-- FileProvider для работы с файлами и камерой -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.drive.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true" >
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
 
-        <activity
-            android:name=".ui.Authentication_Registration.GettingStartedActivity"
-            android:exported="false" />
+        <!-- InitializationProvider для инициализации библиотек -->
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="com.example.drive.androidx-startup"
+            android:exported="false" >
+            <meta-data
+                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+                android:value="androidx.startup" />
+            <meta-data
+                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+                android:value="androidx.startup" />
+            <meta-data
+                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+                android:value="androidx.startup" />
+        </provider>
 
-        <activity
-            android:name=".ui.Authentication_Registration.RegisterActivity1"
-            android:exported="false" />
-
-        <activity
-            android:name=".ui.Authentication_Registration.RegisterActivity2"
-            android:exported="false" />
-
-        <activity
-            android:name=".ui.Authentication_Registration.RegisterActivity3"
-            android:exported="false" />
-
+        <!-- ProfileInstallReceiver для оптимизации производительности -->
+        <receiver
+            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+            android:directBootAware="false"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.DUMP" >
+            <intent-filter>
+                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+            </intent-filter>
+        </receiver>
 
     </application>
 
