@@ -37,6 +37,7 @@
     <uses-permission android:name="com.example.drive.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
 
     <application
+        android:name=".DriveApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:debuggable="true"
