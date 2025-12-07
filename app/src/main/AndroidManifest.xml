@@ -51,7 +51,7 @@
 
         <!-- SplashActivity — точка входа -->
         <activity
-            android:name="com.example.drive.ui.SplashActivity"
+            android:name="com.example.drive.ui.Splash.SplashActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -64,7 +64,7 @@
             android:name="com.example.drive.ui.Authentication_Registration.LoginActivity"
             android:exported="false" />
         <activity
-            android:name="com.example.drive.ui.HomeActivity"
+            android:name="com.example.drive.ui.Home.HomeActivity"
             android:exported="false" />
         <activity
             android:name="com.example.drive.ui.NoInternetActivity"

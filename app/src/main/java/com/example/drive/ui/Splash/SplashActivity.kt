@@ -1,4 +1,4 @@
-package com.example.drive.ui
+package com.example.drive.ui.Splash
 
 import android.content.Intent
 import android.net.ConnectivityManager
@@ -8,8 +8,9 @@ import android.os.Bundle
 import android.preference.PreferenceManager
 import androidx.appcompat.app.AppCompatActivity
 import com.example.drive.R
-import android.content.Context
 import com.example.drive.ui.Authentication_Registration.GettingStartedActivity
+import com.example.drive.ui.Home.HomeActivity
+import com.example.drive.ui.NoInternetActivity
 import com.example.drive.ui.Onboarding.OnboardingActivity
 
 class SplashActivity : AppCompatActivity() {
@@ -18,7 +19,7 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        getSharedPreferences("app_prefs", MODE_PRIVATE)
             .edit()
             .putBoolean("onboarding_completed", false)
             .putString("access_token", null)

@@ -1,4 +1,4 @@
-package com.example.drive.ui
+package com.example.drive.ui.Home
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

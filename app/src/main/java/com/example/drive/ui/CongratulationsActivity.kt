@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.example.drive.R
-import com.example.drive.ui.HomeActivity
+import com.example.drive.ui.Home.HomeActivity
 
 class CongratulationsActivity : AppCompatActivity() {
 
