@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.settings.SettingsActivity">
+    tools:context=".ui.Settings.SettingsActivity">
 
     <!-- Toolbar -->
     <com.google.android.material.appbar.MaterialToolbar
@@ -23,12 +23,15 @@
         android:id="@+id/toolbar_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
         android:text="Настройки"
-        android:textColor="#101828"
         android:textSize="20sp"
-        tools:layout_editor_absoluteX="154dp"
-        tools:layout_editor_absoluteY="16dp" />
+        android:textStyle="bold"
+        android:textColor="#101828"
+        android:fontFamily="@font/montserrat_regular"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="18dp"/>
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollView"

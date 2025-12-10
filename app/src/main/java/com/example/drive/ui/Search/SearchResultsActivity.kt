@@ -2,50 +2,49 @@ package com.example.drive.ui.Search
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.drive.DriveApp
 import com.example.drive.databinding.ActivitySearchResultsBinding
-import com.example.drive.ui.home.HomeViewModel
-import com.example.drive.ui.home.HomeViewModelFactory
-import com.example.drive.ui.home.adapter.CarAdapter
+import com.example.drive.ui.Home.HomeViewModel
+import com.example.drive.ui.Home.Adapter.CarAdapter
+import com.example.drive.ui.car.CarDetailActivity
+import com.example.drive.ui.Home.HomeActivity
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import com.example.drive.R
 
 class SearchResultsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySearchResultsBinding
     private lateinit var adapter: CarAdapter
+    private var currentQuery: String = ""
 
-    // Используем тот же ViewModel, что и на главном экране
-    private val viewModel: HomeViewModel by viewModels {
-        HomeViewModelFactory(application as DriveApp)
-    }
+    private val viewModel: HomeViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySearchResultsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setupToolbar()
+        setupHeader()
         setupRecyclerView()
-        setupSearchView()
         setupObservers()
 
         // Получаем поисковый запрос из Intent
-        val query = intent.getStringExtra("search_query") ?: ""
-        if (query.isNotEmpty()) {
-            binding.searchView.setQuery(query, false)
-            viewModel.searchCars(query)
+        currentQuery = intent.getStringExtra("search_query") ?: ""
+        if (currentQuery.isNotEmpty()) {
+            performSearch(currentQuery)
         }
     }
 
-    private fun setupToolbar() {
-        setSupportActionBar(binding.toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = "Результаты поиска"
-
-        binding.toolbar.setNavigationOnClickListener {
+    private fun setupHeader() {
+        // Настройка кнопки назад
+        binding.backButton.setOnClickListener {
             onBackPressed()
         }
     }
@@ -53,12 +52,10 @@ class SearchResultsActivity : AppCompatActivity() {
     private fun setupRecyclerView() {
         adapter = CarAdapter(
             onBookClick = { car ->
-                // TODO: Переход на бронирование
-                showMessage("Бронирование ${car.brand} ${car.model}")
+                bookCar(car.id)
             },
             onDetailsClick = { car ->
-                // TODO: Переход на детали
-                showMessage("Детали ${car.brand} ${car.model}")
+                navigateToCarDetails(car.id)
             }
         )
 
@@ -69,53 +66,157 @@ class SearchResultsActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupSearchView() {
-        binding.searchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String): Boolean {
-                performSearch(query)
-                return true
-            }
-
-            override fun onQueryTextChange(newText: String): Boolean {
-                if (newText.isEmpty()) {
-                    performSearch("")
-                }
-                return true
-            }
-        })
-    }
-
     private fun performSearch(query: String) {
-        viewModel.searchCars(query)
+        if (query.isEmpty()) {
+            viewModel.loadCars()
+        } else {
+            viewModel.searchCars(query)
+        }
     }
 
     private fun setupObservers() {
-        viewModel.cars.observe(this) { cars ->
-            adapter.submitList(cars)
+        lifecycleScope.launch {
+            viewModel.cars.collectLatest { cars ->
+                adapter.submitList(cars)
 
-            // Обновляем статус
-            binding.searchStatusTextView.text = when {
-                cars.isEmpty() -> "Ничего не найдено"
-                else -> "Найдено ${cars.size} автомобилей"
-            }
+                // Обновляем статус
+                updateSearchStatus(cars.size)
 
-            // Показываем/скрываем сообщение о пустом результате
-            if (cars.isEmpty()) {
-                binding.noResultsLayout.visibility = View.VISIBLE
-                binding.recyclerView.visibility = View.GONE
-            } else {
-                binding.noResultsLayout.visibility = View.GONE
-                binding.recyclerView.visibility = View.VISIBLE
+                // Показываем/скрываем сообщение о пустом результате
+                if (cars.isEmpty()) {
+                    binding.noResultsLayout.visibility = View.VISIBLE
+                    binding.recyclerView.visibility = View.GONE
+                } else {
+                    binding.noResultsLayout.visibility = View.GONE
+                    binding.recyclerView.visibility = View.VISIBLE
+                }
+
+                // Показываем основной контент когда данные загружены
+                showContentState()
             }
         }
 
-        viewModel.isLoading.observe(this) { isLoading ->
-            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        lifecycleScope.launch {
+            viewModel.isLoading.collectLatest { isLoading ->
+                if (isLoading) {
+                    showLoadingState()
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            viewModel.error.collectLatest { error ->
+                error?.let {
+                    showErrorState(it)
+                } ?: run {
+                    // Если ошибка исчезла и не загружаем, показываем контент
+                    if (!viewModel.isLoading.value) {
+                        showContentState()
+                    }
+                }
+            }
         }
     }
 
-    private fun showMessage(message: String) {
-        android.widget.Toast.makeText(this, message, android.widget.Toast.LENGTH_SHORT).show()
+    private fun updateSearchStatus(count: Int) {
+        val countText = when (count) {
+            0 -> "автомобилей"
+            1 -> "автомобиль"
+            in 2..4 -> "автомобиля"
+            else -> "автомобилей"
+        }
+
+        binding.searchStatusTextView.text = when {
+            currentQuery.isEmpty() && count == 0 -> "Автомобили не найдены"
+            currentQuery.isEmpty() && count > 0 -> "Все автомобили ($count)"
+            currentQuery.isNotEmpty() && count == 0 -> "По запросу \"$currentQuery\" ничего не найдено"
+            currentQuery.isNotEmpty() && count > 0 -> "Найдено $count $countText"
+            else -> "Результаты поиска"
+        }
+    }
+
+    private fun showLoadingState() {
+        // Очищаем контейнер состояний
+        binding.stateContainer.removeAllViews()
+
+        // Загружаем и добавляем layout загрузки
+        val loadingView = LayoutInflater.from(this).inflate(R.layout.loading, null)
+        binding.stateContainer.addView(loadingView)
+
+        // Настраиваем тексты
+        loadingView.findViewById<android.widget.TextView>(R.id.loadingText)?.text =
+            if (currentQuery.isNotEmpty()) {
+                "Ищем по запросу: \"$currentQuery\""
+            } else {
+                "Загружаем автомобили..."
+            }
+
+        // Показываем контейнер состояний
+        binding.stateContainer.visibility = View.VISIBLE
+
+        // Скрываем основной контент
+        binding.recyclerView.visibility = View.GONE
+        binding.noResultsLayout.visibility = View.GONE
+        binding.searchStatusTextView.visibility = View.GONE
+        binding.headerLayout.visibility = View.GONE
+    }
+
+    private fun showErrorState(errorMessage: String) {
+        // Очищаем контейнер состояний
+        binding.stateContainer.removeAllViews()
+
+        // Загружаем и добавляем layout ошибки
+        val errorView = LayoutInflater.from(this).inflate(R.layout.error, null)
+        binding.stateContainer.addView(errorView)
+
+        // Настраиваем сообщение об ошибке
+        errorView.findViewById<android.widget.TextView>(R.id.errorMessage).text = errorMessage
+
+        // Настраиваем кнопку повтора
+        errorView.findViewById<android.widget.Button>(R.id.retryButton).setOnClickListener {
+            performSearch(currentQuery)
+        }
+
+        // Показываем контейнер состояний
+        binding.stateContainer.visibility = View.VISIBLE
+
+        // Скрываем основной контент
+        binding.recyclerView.visibility = View.GONE
+        binding.noResultsLayout.visibility = View.GONE
+        binding.searchStatusTextView.visibility = View.GONE
+        binding.headerLayout.visibility = View.GONE
+    }
+
+    private fun showContentState() {
+        // Скрываем контейнер состояний
+        binding.stateContainer.visibility = View.GONE
+
+        // Показываем основной контент
+        binding.recyclerView.visibility = View.VISIBLE
+        binding.searchStatusTextView.visibility = View.VISIBLE
+        binding.headerLayout.visibility = View.VISIBLE
+
+        // Прогресс бар скрываем
+        binding.progressBar.visibility = View.GONE
+    }
+
+    private fun navigateToCarDetails(carId: Int) {
+        val intent = Intent(this, CarDetailActivity::class.java)
+        intent.putExtra("car_id", carId)
+        startActivity(intent)
+    }
+
+    private fun bookCar(carId: Int) {
+        lifecycleScope.launch {
+            val success = viewModel.bookCar(carId)
+            val message = if (success) {
+                "Автомобиль успешно забронирован!"
+            } else {
+                "Ошибка при бронировании. Попробуйте снова."
+            }
+
+            Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()
+        }
     }
 
     companion object {

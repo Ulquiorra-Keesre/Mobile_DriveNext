@@ -12,18 +12,19 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:padding="16dp"
+        >
 
-        <!-- Изображение автомобиля -->
+        <!-- Картинка -->
         <ImageView
             android:id="@+id/carImageView"
             android:layout_width="0dp"
-            android:layout_height="120dp"
-            android:scaleType="centerCrop"
-            android:background="#F5F5F5"
+            android:layout_height="96dp"
+            android:src="@drawable/car_ferrari"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/priceTextView"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+             />
 
         <!-- Бренд и модель -->
         <TextView
@@ -33,14 +34,15 @@
             android:text="Toyota"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@id/carImageView"
-            app:layout_constraintTop_toBottomOf="@id/carImageView" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+             />
 
         <TextView
             android:id="@+id/modelTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="-3dp"
             android:text="Camry"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="@id/brandTextView"
@@ -53,10 +55,10 @@
             android:layout_height="wrap_content"
             android:text="2 500 ₽/сут."
             android:textSize="20sp"
-            android:textColor="@color/primary"
+            android:textColor="#2A1246"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/brandTextView" />
+            app:layout_constraintStart_toStartOf="@id/modelTextView"
+            app:layout_constraintTop_toBottomOf="@id/modelTextView" />
 
         <!-- Характеристики -->
         <TextView
@@ -64,40 +66,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Бензин • Автомат • 5 мест • 2022 г."
+            android:text="Бензин • Автомат"
             android:textSize="14sp"
             android:textColor="#666666"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/modelTextView" />
+            app:layout_constraintStart_toStartOf="@id/priceTextView"
+            app:layout_constraintTop_toBottomOf="@id/priceTextView" />
 
-        <!-- Статус доступности -->
-        <TextView
-            android:id="@+id/availabilityTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Доступен"
-            android:textSize="14sp"
-            android:drawableStart="@drawable/ic_circle_green"
-            android:drawablePadding="4dp"
-            app:layout_constraintStart_toStartOf="@id/specsTextView"
-            app:layout_constraintTop_toBottomOf="@id/specsTextView" />
-
-        <!-- Рейтинг -->
-        <TextView
-            android:id="@+id/ratingTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="4.7 ★"
-            android:textSize="14sp"
-            android:drawableStart="@drawable/ic_star"
-            android:drawablePadding="4dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/specsTextView" />
-
-        <!-- Кнопки -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -105,7 +79,7 @@
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/availabilityTextView">
+            app:layout_constraintTop_toBottomOf="@id/specsTextView">
 
             <Button
                 android:id="@+id/detailsButton"
@@ -127,5 +101,7 @@
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
 </androidx.cardview.widget.CardView>

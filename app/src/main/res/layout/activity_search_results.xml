@@ -7,45 +7,62 @@
     android:layout_height="match_parent"
     tools:context=".ui.Search.SearchResultsActivity">
 
-    <!-- Toolbar с кнопкой назад -->
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
-        android:layout_width="0dp"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        app:navigationIcon="@drawable/arrow_left"
-        app:title="Результаты поиска"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <!-- Поисковая строка -->
-    <androidx.appcompat.widget.SearchView
-        android:id="@+id/searchView"
+    <!-- Заголовок экрана со стрелкой назад -->
+    <LinearLayout
+        android:id="@+id/headerLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:queryHint="Введите марку автомобиля..."
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:background="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- Стрелка назад -->
+        <ImageView
+            android:id="@+id/backButton"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/arrow_left"
+            android:contentDescription="return_to_home"
+            app:tint="#000000"
+            android:padding="4dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"/>
+
+        <!-- Заголовок -->
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="31dp"
+            android:layout_weight="1"
+            android:text="Результаты поиска"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#333333"
+            android:layout_marginStart="55dp"
+            android:layout_marginTop="20dp"/>
+
+    </LinearLayout>
 
     <!-- Статус поиска -->
     <TextView
         android:id="@+id/searchStatusTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="3dp"
         android:text="Найдено 5 автомобилей"
         android:textSize="14sp"
         android:textColor="#666666"
+        android:fontFamily="@font/montserrat_regular"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/searchView" />
+        app:layout_constraintTop_toBottomOf="@id/headerLayout" />
 
-    <!-- Список результатов -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="0dp"
@@ -58,7 +75,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/searchStatusTextView" />
 
-    <!-- Прогресс бар -->
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
@@ -69,7 +85,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/recyclerView" />
 
-    <!-- Сообщение, если нет результатов -->
     <LinearLayout
         android:id="@+id/noResultsLayout"
         android:layout_width="wrap_content"
@@ -85,7 +100,7 @@
         <ImageView
             android:layout_width="64dp"
             android:layout_height="64dp"
-            android:src="@drawable/ic_search_empty"
+            android:src="@drawable/ic_error"
             android:contentDescription="search_empty"/>
 
         <TextView
@@ -105,5 +120,16 @@
             android:textColor="#666666" />
 
     </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/stateContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        android:background="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

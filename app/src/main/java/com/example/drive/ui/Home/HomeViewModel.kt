@@ -26,7 +26,7 @@ class HomeViewModel(
         loadCars()
     }
 
-    private fun loadCars() {
+    fun loadCars() {
         viewModelScope.launch {
             _isLoading.value = true
             _error.value = null
