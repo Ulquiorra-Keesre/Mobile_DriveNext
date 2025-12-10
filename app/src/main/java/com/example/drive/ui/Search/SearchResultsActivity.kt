@@ -10,9 +10,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.drive.databinding.ActivitySearchResultsBinding
 import com.example.drive.ui.Home.HomeViewModel
+import com.example.drive.ui.Home.HomeViewModelFactory
 import com.example.drive.ui.Home.Adapter.CarAdapter
 import com.example.drive.ui.car.CarDetailActivity
-import com.example.drive.ui.Home.HomeActivity
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -24,7 +24,10 @@ class SearchResultsActivity : AppCompatActivity() {
     private lateinit var adapter: CarAdapter
     private var currentQuery: String = ""
 
-    private val viewModel: HomeViewModel by viewModels()
+    // Используем фабрику для ViewModel
+    private val viewModel: HomeViewModel by viewModels {
+        HomeViewModelFactory(application as com.example.drive.DriveApp)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

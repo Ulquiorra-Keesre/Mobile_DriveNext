@@ -10,7 +10,6 @@ class DriveApp : Application() {
     // База данных Room
     val database by lazy { AppDatabase.getDatabase(this) }
 
-    // Repository (создаем при первом обращении)
     val carRepository by lazy {
         CarRepository(database.carDao())
     }
@@ -21,6 +20,5 @@ class DriveApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        // Дополнительная инициализация не требуется
     }
 }

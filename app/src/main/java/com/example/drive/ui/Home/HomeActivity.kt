@@ -4,22 +4,22 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.drive.databinding.ActivityHomeBinding
 import com.example.drive.ui.car.CarDetailActivity
 import com.example.drive.ui.Search.SearchResultsActivity
 import com.example.drive.ui.Settings.SettingsActivity
-import com.example.drive.ui.Profile.ProfileActivity
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import com.example.drive.R
 import com.example.drive.ui.Home.Adapter.CarAdapter
-import android.widget.TextView
 
 class HomeActivity : AppCompatActivity() {
 
@@ -27,10 +27,25 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var carAdapter: CarAdapter
     private var currentQuery: String = ""
 
-    private val viewModel: HomeViewModel by viewModels()
+    // Правильное создание ViewModel с фабрикой
+    private val viewModel: HomeViewModel by viewModels {
+        HomeViewModelFactory(application as com.example.drive.DriveApp)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Быстрая проверка авторизации
+        val sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE)
+        val isLoggedIn = sharedPreferences.getBoolean("is_logged_in", false)
+
+        if (!isLoggedIn) {
+            // Если не авторизован, отправляем на логин
+            val intent = Intent(this, com.example.drive.ui.Authentication_Registration.LoginActivity::class.java)
+            startActivity(intent)
+            finish()
+            return
+        }
 
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -107,12 +122,14 @@ class HomeActivity : AppCompatActivity() {
                         binding.noResultsLayout.visibility = View.VISIBLE
                         binding.recyclerView.visibility = View.GONE
                         // Настраиваем текст
-                        binding.noResultsLayout.findViewById<TextView>(R.id.noResultsTitle)?.text =
-                            "По запросу \"$currentQuery\" ничего не найдено"
+                        binding.noResultsTitle.text = "По запросу \"$currentQuery\" ничего не найдено"
+                        binding.noResultsSubtitle.text = "Попробуйте изменить запрос поиска"
                     } else {
                         // Показываем общее сообщение о пустом списке
                         binding.noResultsLayout.visibility = View.VISIBLE
                         binding.recyclerView.visibility = View.GONE
+                        binding.noResultsTitle.text = "Автомобили не найдены"
+                        binding.noResultsSubtitle.text = "Попробуйте позже"
                     }
                 } else {
                     binding.noResultsLayout.visibility = View.GONE
@@ -152,7 +169,7 @@ class HomeActivity : AppCompatActivity() {
         binding.stateContainer.addView(loadingView)
 
         // Настраиваем тексты
-        loadingView.findViewById<android.widget.TextView>(R.id.loadingText)?.text =
+        loadingView.findViewById<TextView>(R.id.loadingText)?.text =
             if (currentQuery.isNotEmpty()) {
                 "Ищем по запросу: \"$currentQuery\""
             } else {
@@ -183,7 +200,7 @@ class HomeActivity : AppCompatActivity() {
         binding.stateContainer.addView(errorView)
 
         // Настраиваем сообщение об ошибке
-        errorView.findViewById<android.widget.TextView>(R.id.errorMessage).text = errorMessage
+        errorView.findViewById<TextView>(R.id.errorMessage).text = errorMessage
 
         // Настраиваем кнопку повтора
         errorView.findViewById<android.widget.Button>(R.id.retryButton).setOnClickListener {
@@ -234,7 +251,6 @@ class HomeActivity : AppCompatActivity() {
         binding.bottomNavigation.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_home -> {
-                    // Уже в HomeActivity
                     true
                 }
                 R.id.navigation_bookings -> {

@@ -1,11 +1,11 @@
 package com.example.drive.ui.Splash
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.Bundle
-import android.preference.PreferenceManager
 import androidx.appcompat.app.AppCompatActivity
 import com.example.drive.R
 import com.example.drive.ui.Authentication_Registration.GettingStartedActivity
@@ -15,15 +15,21 @@ import com.example.drive.ui.Onboarding.OnboardingActivity
 
 class SplashActivity : AppCompatActivity() {
 
+    private lateinit var sharedPreferences: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        getSharedPreferences("app_prefs", MODE_PRIVATE)
-            .edit()
-            .putBoolean("onboarding_completed", false)
-            .putString("access_token", null)
-            .apply()
+        sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE)
+
+        // Инициализация настроек по умолчанию (только при первом запуске)
+        if (!sharedPreferences.contains("onboarding_completed")) {
+            sharedPreferences.edit()
+                .putBoolean("onboarding_completed", false)
+                .putBoolean("is_logged_in", false)
+                .apply()
+        }
 
         window.decorView.postDelayed({
             if (!isNetworkAvailable()) {
@@ -44,9 +50,8 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun isUserLoggedIn(): Boolean {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
-        val token = prefs.getString("access_token", null)
-        return !token.isNullOrBlank()
+        // Проверяем в UserPrefs, а не в PreferenceManager
+        return sharedPreferences.getBoolean("is_logged_in", false)
     }
 
     private fun isNetworkAvailable(): Boolean {
@@ -67,7 +72,6 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun shouldShowOnboarding(): Boolean {
-        val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)
-        return !prefs.getBoolean("onboarding_completed", false)
+        return !sharedPreferences.getBoolean("onboarding_completed", false)
     }
 }

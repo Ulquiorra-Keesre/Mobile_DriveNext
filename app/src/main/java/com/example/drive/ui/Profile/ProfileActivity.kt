@@ -3,6 +3,7 @@ package com.example.drive.ui.Profile
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -16,10 +17,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.example.drive.R
+import com.example.drive.ui.Authentication_Registration.LoginActivity
 import java.io.File
 import java.io.FileOutputStream
-import com.example.drive.ui.Authentication_Registration.LoginActivity
-import com.example.drive.R
 
 class ProfileActivity : AppCompatActivity() {
 
@@ -30,6 +31,7 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var tvChangeAvatar: TextView
     private lateinit var tvChangePassword: TextView
     private lateinit var btnLogout: Button
+    private lateinit var sharedPreferences: SharedPreferences
 
     private val PICK_IMAGE_REQUEST = 100
     private val CAMERA_REQUEST = 200
@@ -39,6 +41,9 @@ class ProfileActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
+
+        // Инициализация SharedPreferences
+        sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE)
 
         initViews()
         loadUserData()
@@ -56,11 +61,9 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun loadUserData() {
-        val sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE)
-
         val name = sharedPreferences.getString("user_name", "Иван Иванов")
         val joinDate = sharedPreferences.getString("join_date", "Присоединился в июле 2024")
-        val email = sharedPreferences.getString("email", "ivanov@mtuci.ru")
+        val email = sharedPreferences.getString("user_email", "ivanov@mtuci.ru") // Изменено с "email" на "user_email"
 
         tvUserName.text = name
         tvJoinDate.text = joinDate
@@ -87,7 +90,6 @@ class ProfileActivity : AppCompatActivity() {
             outputStream.close()
 
             // Также сохраняем в SharedPreferences флаг о наличии аватара
-            val sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE)
             val editor = sharedPreferences.edit()
             editor.putBoolean("has_avatar", true)
             editor.apply()
@@ -102,19 +104,17 @@ class ProfileActivity : AppCompatActivity() {
             showAvatarSelectionDialog()
         }
 
-//        // Изменение пароля
-//        tvChangePassword.setOnClickListener {
-//            // Переход на экран смены пароля
-//            val intent = Intent(this, ChangePasswordActivity::class.java)
-//            startActivity(intent)
-//        }
+        // Изменение пароля
+        tvChangePassword.setOnClickListener {
+            // TODO: Переход на экран смены пароля
+            // val intent = Intent(this, ChangePasswordActivity::class.java)
+            // startActivity(intent)
+            Toast.makeText(this, "Смена пароля???", Toast.LENGTH_SHORT).show()
+        }
 
         // Выход из профиля
         btnLogout.setOnClickListener {
             clearUserData()
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
-            finish()
         }
     }
 
@@ -223,16 +223,43 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun clearUserData() {
-        val sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE)
+        // Показываем диалог подтверждения
+        androidx.appcompat.app.AlertDialog.Builder(this)
+            .setTitle("Выход из профиля")
+            .setMessage("Вы уверены, что хотите выйти?")
+            .setPositiveButton("Выйти") { dialog, _ ->
+                performLogout()
+                dialog.dismiss()
+            }
+            .setNegativeButton("Отмена") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+    private fun performLogout() {
+        // Очищаем данные авторизации
         val editor = sharedPreferences.edit()
-        editor.clear()
+        editor.putBoolean("is_logged_in", false) // Важно: меняем на false
+        editor.remove("user_email")
+        editor.remove("user_name")
+        // Не удаляем все данные, чтобы сохранить настройки
         editor.apply()
 
-        // Удаляем файл аватара
+        // Удаляем файл аватара (опционально)
         val avatarFile = File(filesDir, "user_avatar.jpg")
         if (avatarFile.exists()) {
             avatarFile.delete()
         }
+
+        Toast.makeText(this, "Вы вышли из профиля", Toast.LENGTH_SHORT).show()
+
+        // Переходим на экран логина
+        val intent = Intent(this, LoginActivity::class.java)
+        // Очищаем стек активностей, чтобы нельзя было вернуться назад
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
     }
 
     override fun onResume() {

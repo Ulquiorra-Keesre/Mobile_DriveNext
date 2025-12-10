@@ -67,7 +67,7 @@
 
     <!-- Кнопка "Далее" -->
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/nextButton"
+        android:id="@+id/btnGetStarted"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:text="Далее"

@@ -5,7 +5,7 @@ import com.example.drive.data.model.Car
 import kotlinx.coroutines.flow.Flow
 
 class CarRepository(
-    private val carDao: CarDao  // Просто передаем через конструктор
+    private val carDao: CarDao
 ) {
 
     fun getAllCars(): Flow<List<Car>> = carDao.getAllCars()
