@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.settings.SettingsActivity">
+
+    <!-- Toolbar -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <!-- Контейнер для контента -->
+    <TextView
+        android:id="@+id/toolbar_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Настройки"
+        android:textColor="#101828"
+        android:textSize="20sp"
+        tools:layout_editor_absoluteX="154dp"
+        tools:layout_editor_absoluteY="16dp" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#F5F5F5"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Карточка профиля -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/root"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp"
+                android:layout_marginBottom="24dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="16dp"
+                    android:gravity="center_vertical"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <!-- Аватар -->
+                    <ImageView
+                        android:id="@+id/avatarImageView"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:src="@drawable/avatar_default"
+                        android:scaleType="centerCrop"
+                        android:background="#E0E0E0"
+                        android:contentDescription="avatar" />
+
+                    <!-- Информация пользователя -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp">
+
+                        <TextView
+                            android:id="@+id/userNameTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Иван Иванов"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/userEmailTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="ivan@mtuci.ru"
+                            android:textSize="14sp"
+                            android:textColor="#666666"
+                            android:layout_marginTop="4dp" />
+
+                    </LinearLayout>
+
+                    <!-- Стрелка -->
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/arrow_forward"
+                        android:contentDescription="arrow_forward" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Карточка меню настроек -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingVertical="8dp">
+
+
+
+                    <!-- Пункт: Мои бронирования -->
+                    <LinearLayout
+                        android:id="@+id/bookingsItem"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:drawablePadding="16dp"
+                        android:drawableStart="@drawable/ic_bookings">
+
+                        <ImageView
+                            android:id="@+id/bookmark"
+                            android:layout_width="26dp"
+                            android:layout_height="26dp"
+                            android:src="@drawable/ic_bookings"
+                            android:scaleType="centerCrop"
+                            android:background="#E0E0E0"
+                            android:contentDescription="bookings" />
+
+                        <TextView
+                            android:layout_marginLeft="15px"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Мои бронирования"
+                            android:textSize="16sp" />
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/arrow_forward"
+                            android:contentDescription="arrow_forward" />
+
+                    </LinearLayout>
+
+                    <!-- Разделитель -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#EEEEEE"
+                        android:layout_marginStart="56dp" />
+
+                    <!-- Пункт: Тема -->
+                    <LinearLayout
+                        android:id="@+id/themeItem"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:drawablePadding="16dp"
+                        android:drawableStart="@drawable/ic_theme">
+
+                        <ImageView
+                            android:id="@+id/theme"
+                            android:layout_width="26dp"
+                            android:layout_height="26dp"
+                            android:src="@drawable/ic_theme"
+                            android:scaleType="centerCrop"
+                            android:background="#E0E0E0"
+                            android:contentDescription="theme" />
+
+                        <TextView
+                            android:layout_marginLeft="15px"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Тема"
+                            android:textSize="16sp" />
+
+
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/arrow_forward"
+                            android:contentDescription="arrow_forward" />
+
+                    </LinearLayout>
+
+                    <!-- Разделитель -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#EEEEEE"
+                        android:layout_marginStart="56dp" />
+
+                    <!-- Пункт: Уведомления -->
+                    <LinearLayout
+                        android:id="@+id/notificationsItem"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:drawablePadding="16dp"
+                        android:drawableStart="@drawable/ic_notifications">
+
+                        <ImageView
+                            android:id="@+id/notifications"
+                            android:layout_width="26dp"
+                            android:layout_height="26dp"
+                            android:src="@drawable/ic_notifications"
+                            android:scaleType="centerCrop"
+                            android:background="#E0E0E0"
+                            android:contentDescription="notifications" />
+
+                        <TextView
+                            android:layout_marginLeft="15px"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Уведомления"
+                            android:textSize="16sp" />
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/arrow_forward"
+                            android:contentDescription="arrow_forward" />
+
+
+                    </LinearLayout>
+
+                    <!-- Разделитель -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#EEEEEE"
+                        android:layout_marginStart="56dp" />
+
+                    <!-- Пункт: Подключить свой автомобиль -->
+                    <LinearLayout
+                        android:id="@+id/addCarItem"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:drawablePadding="16dp"
+                        android:drawableStart="@drawable/ic_car_add">
+
+                        <ImageView
+                            android:id="@+id/car_add"
+                            android:layout_width="26dp"
+                            android:layout_height="26dp"
+                            android:src="@drawable/ic_car_add"
+                            android:scaleType="centerCrop"
+                            android:background="#E0E0E0"
+                            android:contentDescription="car_add" />
+
+                        <TextView
+                            android:layout_marginLeft="15px"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Подключить свой автомобиль"
+                            android:textSize="16sp" />
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/arrow_forward"
+                            android:contentDescription="arrow_forward" />
+
+                    </LinearLayout>
+
+                    <!-- Разделитель -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#EEEEEE"
+                        android:layout_marginStart="56dp" />
+
+                    <!-- Пункт: Помощь -->
+                    <LinearLayout
+                        android:id="@+id/helpItem"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:drawablePadding="16dp"
+                        android:drawableStart="@drawable/ic_help">
+
+                        <ImageView
+                            android:id="@+id/help"
+                            android:layout_width="26dp"
+                            android:layout_height="26dp"
+                            android:src="@drawable/ic_help"
+                            android:scaleType="centerCrop"
+                            android:background="#E0E0E0"
+                            android:contentDescription="help" />
+
+                        <TextView
+                            android:layout_marginLeft="15px"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Помощь"
+                            android:textSize="16sp" />
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/arrow_forward"
+                            android:contentDescription="arrow_forward" />
+
+                    </LinearLayout>
+
+                    <!-- Разделитель -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#EEEEEE"
+                        android:layout_marginStart="56dp" />
+
+                    <!-- Пункт: Пригласи друга -->
+                    <LinearLayout
+                        android:id="@+id/inviteItem"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:drawablePadding="16dp"
+                        android:drawableStart="@drawable/ic_invite">
+
+                        <ImageView
+                            android:id="@+id/invite"
+                            android:layout_width="26dp"
+                            android:layout_height="26dp"
+                            android:src="@drawable/ic_invite"
+                            android:scaleType="centerCrop"
+                            android:background="#E0E0E0"
+                            android:contentDescription="invite" />
+
+                        <TextView
+                            android:layout_marginLeft="15px"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Пригласи друга"
+                            android:textSize="16sp" />
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/arrow_forward"
+                            android:contentDescription="arrow_forward" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Bottom Navigation -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/windowBackground"
+        app:menu="@menu/bottom_navigation"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

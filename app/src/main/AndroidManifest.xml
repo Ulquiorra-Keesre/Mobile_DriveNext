@@ -65,8 +65,9 @@
             android:name="com.example.drive.ui.Authentication_Registration.LoginActivity"
             android:exported="false" />
         <activity
-            android:name="com.example.drive.ui.Home.HomeActivity"
-            android:exported="false" />
+            android:name=".ui.home.HomeActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name="com.example.drive.ui.NoInternetActivity"
             android:exported="false" />
@@ -92,6 +93,18 @@
 
         <activity
             android:name="com.example.drive.ui.CongratulationsActivity"
+            android:exported="false" />
+
+        <activity
+            android:name="com.example.drive.ui.Search.SearchResultsActivity"
+            android:exported="false" />
+
+        <activity
+            android:name="com.example.drive.ui.Settings.SettingsActivity"
+            android:exported="false" />
+
+        <activity
+            android:name="com.example.drive.ui.Profile.ProfileActivity"
             android:exported="false" />
 
         <!-- FileProvider для работы с файлами и камерой -->

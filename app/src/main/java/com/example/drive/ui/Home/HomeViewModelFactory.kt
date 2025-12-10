@@ -1,4 +1,4 @@
-package com.example.drive.ui.home
+package com.example.drive.ui.Home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

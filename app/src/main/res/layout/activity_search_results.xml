@@ -5,20 +5,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.Home.HomeActivity">
+    tools:context=".ui.Search.SearchResultsActivity">
 
-    <!-- Toolbar -->
+    <!-- Toolbar с кнопкой назад -->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
-        app:title="Drive Rent"
+        app:navigationIcon="@drawable/arrow_left"
+        app:title="Результаты поиска"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Search View -->
+    <!-- Поисковая строка -->
     <androidx.appcompat.widget.SearchView
         android:id="@+id/searchView"
         android:layout_width="0dp"
@@ -26,12 +27,25 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:queryHint="Поиск автомобилей..."
+        android:queryHint="Введите марку автомобиля..."
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
-    <!-- RecyclerView для списка автомобилей -->
+    <!-- Статус поиска -->
+    <TextView
+        android:id="@+id/searchStatusTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Найдено 5 автомобилей"
+        android:textSize="14sp"
+        android:textColor="#666666"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/searchView" />
+
+    <!-- Список результатов -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="0dp"
@@ -39,12 +53,12 @@
         android:layout_marginTop="8dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/item_car"
-        app:layout_constraintBottom_toTopOf="@id/bottomNavigation"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/searchView" />
+        app:layout_constraintTop_toBottomOf="@id/searchStatusTextView" />
 
-    <!-- ProgressBar при загрузке -->
+    <!-- Прогресс бар -->
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
@@ -55,27 +69,41 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/recyclerView" />
 
-    <!-- Сообщение об ошибке -->
-    <TextView
-        android:id="@+id/errorTextView"
+    <!-- Сообщение, если нет результатов -->
+    <LinearLayout
+        android:id="@+id/noResultsLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        android:text="Ошибка загрузки данных"
-        android:textColor="@android:color/holo_red_dark"
+        android:orientation="vertical"
+        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="@id/recyclerView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/recyclerView" />
+        app:layout_constraintTop_toTopOf="@id/recyclerView">
 
-    <!-- Bottom Navigation -->
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavigation"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:menu="@menu/bottom_navigation"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <ImageView
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:src="@drawable/ic_search_empty"
+            android:contentDescription="search_empty"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Ничего не найдено"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Попробуйте изменить запрос"
+            android:textSize="14sp"
+            android:textColor="#666666" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
