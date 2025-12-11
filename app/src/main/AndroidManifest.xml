@@ -107,6 +107,14 @@
             android:name="com.example.drive.ui.Profile.ProfileActivity"
             android:exported="false" />
 
+        <activity
+            android:name="com.example.drive.ui.BecomeHostActivity"
+            android:exported="false" />
+
+        <activity
+            android:name="com.example.drive.ui.AddCarActivity"
+            android:exported="false" />
+
         <!-- FileProvider для работы с файлами и камерой -->
         <provider
             android:name="androidx.core.content.FileProvider"

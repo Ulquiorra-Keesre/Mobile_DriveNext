@@ -24,6 +24,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@id/priceTextView"
             app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginLeft="10dp"
              />
 
         <!-- Бренд и модель -->

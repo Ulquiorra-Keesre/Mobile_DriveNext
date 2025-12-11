@@ -1,140 +1,104 @@
 package com.example.drive.ui.Settings
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
+import android.widget.TextView
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
-import com.example.drive.databinding.ActivitySettingsBinding
+import androidx.cardview.widget.CardView
+import com.example.drive.R
+import com.example.drive.ui.BecomeHostActivity
 import com.example.drive.ui.Home.HomeActivity
 import com.example.drive.ui.Profile.ProfileActivity
-
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class SettingsActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivitySettingsBinding
+    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var tvUserName: TextView
+    private lateinit var tvEmail: TextView
+    private lateinit var profileBtn: ImageView
+    private lateinit var hostBtn: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivitySettingsBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_settings)
 
-        setupToolbar()
-        setupUserProfile()
-        setupMenuItems()
+        sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE)
+
+        initViews()
+        setupClickListeners()
+        loadUserData()
         setupBottomNavigation()
     }
 
-    private fun setupToolbar() {
-        setSupportActionBar(binding.toolbar)
-        supportActionBar?.title = "Настройки"
+    private fun initViews() {
+        tvUserName = findViewById(R.id.tvUserName)
+        tvEmail = findViewById(R.id.tvEmail)
+        profileBtn = findViewById(R.id.btn_toProfile)
+        hostBtn = findViewById(R.id.btn_toHost)
     }
 
-    private fun setupUserProfile() {
-        // Данные пользователя
-        binding.userNameTextView.text = "Иван Иванов"
-        binding.userEmailTextView.text = "ivan@mtuci.ru"
-
-        // Переход в профиль при клике на карточку профиля
-        binding.avatarImageView.setOnClickListener {
-            navigateToProfile()
+    private fun setupClickListeners() {
+        profileBtn.setOnClickListener {
+            val intent = Intent(this, ProfileActivity::class.java)
+            startActivity(intent)
         }
 
-        // Клик на всю карточку профиля
-        binding.root.findViewById<androidx.cardview.widget.CardView>(com.example.drive.R.id.root).setOnClickListener {
-            navigateToProfile()
+        hostBtn.setOnClickListener {
+            val intent = Intent(this, BecomeHostActivity::class.java)
+            startActivity(intent)
         }
+
+
     }
 
-    private fun navigateToProfile() {
-        startActivity(Intent(this, ProfileActivity::class.java))
-    }
+    private fun loadUserData() {
+        val name = sharedPreferences.getString("user_name", "Иван Иванов")
+        val email = sharedPreferences.getString("user_email", "user@example.com")
 
-    private fun setupMenuItems() {
-        // 1. Мои бронирования
-        binding.bookingsItem.setOnClickListener {
-            showMessage("Мои бронирования")
-            // TODO: Переход на экран бронирований
-        }
+        // Отладка
+        Log.d("SettingsActivity", "Name: $name, Email: $email")
 
-        // 2. Тема
-        binding.themeItem.setOnClickListener {
-            showThemeDialog()
-        }
-
-
-        // 4. Подключить автомобиль
-        binding.addCarItem.setOnClickListener {
-            showMessage("Подключить автомобиль")
-            // TODO: Переход на экран добавления автомобиля
-        }
-
-        // 5. Помощь
-        binding.helpItem.setOnClickListener {
-            showMessage("Помощь")
-            // TODO: Переход на экран помощи
-        }
-
-        // 6. Пригласи друга
-        binding.inviteItem.setOnClickListener {
-            shareApp()
+        // Проверка на null перед установкой текста
+        if (tvUserName != null && tvEmail != null) {
+            tvUserName.text = name
+            tvEmail.text = email
+        } else {
+            Log.e("SettingsActivity", "TextView not found!")
         }
     }
 
     private fun setupBottomNavigation() {
-        binding.bottomNavigation.setOnNavigationItemSelectedListener { item ->
+        val bottomNavigation = findViewById<BottomNavigationView>(R.id.bottomNavigation)
+        bottomNavigation.selectedItemId = R.id.navigation_settings
+
+        bottomNavigation.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
-                com.example.drive.R.id.navigation_home -> {
-                    startActivity(Intent(this, HomeActivity::class.java))
+                R.id.navigation_home -> {
+                    val intent = Intent(this, HomeActivity::class.java)
+                    startActivity(intent)
+                    overridePendingTransition(0, 0)
                     finish()
                     true
                 }
-                com.example.drive.R.id.navigation_bookings -> {
+                R.id.navigation_bookings -> {
                     // TODO: Переход на BookingsActivity
-                    showMessage("Мои бронирования")
                     true
                 }
-                com.example.drive.R.id.navigation_settings -> {
-                    // Уже на экране настроек
+                R.id.navigation_settings -> {
                     true
                 }
                 else -> false
             }
         }
-
-        // Выделяем текущий пункт (Настройки)
-        binding.bottomNavigation.selectedItemId = com.example.drive.R.id.navigation_settings
     }
 
-    private fun showThemeDialog() {
-        val themes = arrayOf("Светлая", "Темная")
-        androidx.appcompat.app.AlertDialog.Builder(this)
-            .setTitle("Выберите тему")
-            .setItems(themes) { _, which ->
-                val selectedTheme = themes[which]
-                saveThemeSetting(selectedTheme)
-                showMessage("Тема изменена на: $selectedTheme")
-            }
-            .setNegativeButton("Отмена", null)
-            .show()
-    }
 
-    private fun saveThemeSetting(theme: String) {
-        // TODO: Сохранить тему в SharedPreferences
-    }
-
-    private fun saveNotificationSetting(isEnabled: Boolean) {
-        // TODO: Сохранить настройку уведомлений
-        showMessage("Уведомления ${if (isEnabled) "включены" else "выключены"}")
-    }
-
-    private fun shareApp() {
-        val shareIntent = Intent(Intent.ACTION_SEND)
-        shareIntent.type = "text/plain"
-        shareIntent.putExtra(Intent.EXTRA_TEXT,
-            "Приглашаю тебя использовать Drive Rent! Скачай приложение по ссылке: https://drive-rent.com")
-        startActivity(Intent.createChooser(shareIntent, "Поделиться приложением"))
-    }
-
-    private fun showMessage(message: String) {
-        android.widget.Toast.makeText(this, message, android.widget.Toast.LENGTH_SHORT).show()
+    override fun onResume() {
+        super.onResume()
+        loadUserData() // Обновляем данные при возвращении на экран
     }
 }

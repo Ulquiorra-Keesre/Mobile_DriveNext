@@ -74,7 +74,7 @@ abstract class AppDatabase : RoomDatabase() {
             val cars = listOf(
                 Car(
                     id = 1,
-                    brand = "Toyota",
+                    brand = "Ferrari",
                     model = "Camry",
                     pricePerDay = 2500.0,
                     year = 2022,
@@ -83,14 +83,14 @@ abstract class AppDatabase : RoomDatabase() {
                     seats = 5,
                     engineVolume = "2.5 л",
                     power = 203,
-                    color = "Черный",
+                    color = "Red",
                     imageResId = R.drawable.car_ferrari,
                     rating = 4.7f,
                     description = "Комфортный седан бизнес-класса"
                 ),
                 Car(
                     id = 2,
-                    brand = "BMW",
+                    brand = "Porshe",
                     model = "X5",
                     pricePerDay = 5000.0,
                     year = 2023,
@@ -99,14 +99,14 @@ abstract class AppDatabase : RoomDatabase() {
                     seats = 5,
                     engineVolume = "3.0 л",
                     power = 286,
-                    color = "Белый",
+                    color = "Black",
                     imageResId = R.drawable.car_porsche,
                     rating = 4.9f,
                     description = "Премиальный внедорожник"
                 ),
                 Car(
                     id = 3,
-                    brand = "Mercedes",
+                    brand = "Posche",
                     model = "C-Class",
                     pricePerDay = 4000.0,
                     year = 2021,
@@ -115,14 +115,14 @@ abstract class AppDatabase : RoomDatabase() {
                     seats = 5,
                     engineVolume = "2.0 л",
                     power = 258,
-                    color = "Серый",
+                    color = "Black",
                     imageResId = R.drawable.car_porsche,
                     rating = 4.8f,
                     description = "Элегантный бизнес-седан"
                 ),
                 Car(
                     id = 4,
-                    brand = "Audi",
+                    brand = "Ferrari",
                     model = "A4",
                     pricePerDay = 3500.0,
                     year = 2022,
@@ -131,14 +131,14 @@ abstract class AppDatabase : RoomDatabase() {
                     seats = 5,
                     engineVolume = "2.0 л",
                     power = 190,
-                    color = "Синий",
+                    color = "Red",
                     imageResId = R.drawable.car_ferrari,
                     rating = 4.6f,
                     description = "Спортивный седан"
                 ),
                 Car(
                     id = 5,
-                    brand = "Kia",
+                    brand = "Ferrari",
                     model = "Rio",
                     pricePerDay = 1800.0,
                     year = 2021,
@@ -147,7 +147,7 @@ abstract class AppDatabase : RoomDatabase() {
                     seats = 5,
                     engineVolume = "1.6 л",
                     power = 123,
-                    color = "Красный",
+                    color = "Red",
                     imageResId = R.drawable.car_ferrari,
                     rating = 4.3f,
                     description = "Экономичный городской автомобиль"

@@ -134,15 +134,22 @@ class RegisterActivity2 : AppCompatActivity() {
         dob: String,
         gender: String
     ) {
-        // TODO: отправка данных на сервер
         Toast.makeText(this, "Регистрация: $firstName $lastName ($gender)", Toast.LENGTH_SHORT).show()
 
-        // После успешной регистрации:
-        // 1. Сохранить данные пользователя (если нужно)
-        // 2. Перейти на HomeActivity
-        // 3. Закрыть RegisterActivity2
-        startActivity(Intent(this, RegisterActivity3::class.java))
+        val intent = Intent(this, RegisterActivity3::class.java)
 
+        // Передаем ВСЕ данные из предыдущих экранов
+        intent.putExtra("email", intent.getStringExtra("email") ?: "")
+        intent.putExtra("password", intent.getStringExtra("password") ?: "")
+
+        // Добавляем новые данные
+        intent.putExtra("last_name", lastName)
+        intent.putExtra("first_name", firstName)
+        intent.putExtra("middle_name", middleName)
+        intent.putExtra("dob", dob)
+        intent.putExtra("gender", gender)
+
+        startActivity(intent)
     }
 
     private fun isNetworkAvailable(): Boolean {

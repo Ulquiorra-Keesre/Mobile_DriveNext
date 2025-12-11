@@ -10,7 +10,7 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.widget.Button
+import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -30,7 +30,7 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var ivAvatar: ImageView
     private lateinit var tvChangeAvatar: TextView
     private lateinit var tvChangePassword: TextView
-    private lateinit var btnLogout: Button
+    private lateinit var tLogout: TextView
     private lateinit var sharedPreferences: SharedPreferences
 
     private val PICK_IMAGE_REQUEST = 100
@@ -42,35 +42,91 @@ class ProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
 
-        // Инициализация SharedPreferences
+        Log.d("ProfileActivity", "=== onCreate started ===")
+
         sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE)
 
         initViews()
         loadUserData()
         setupClickListeners()
+
+        Log.d("ProfileActivity", "=== onCreate completed ===")
     }
 
     private fun initViews() {
-        tvUserName = findViewById(R.id.tvUserName)
-        tvJoinDate = findViewById(R.id.tvJoinDate)
-        tvEmail = findViewById(R.id.tvEmail)
-        ivAvatar = findViewById(R.id.ivAvatar)
-        tvChangeAvatar = findViewById(R.id.tvChangeAvatar)
-        tvChangePassword = findViewById(R.id.tvChangePassword)
-        btnLogout = findViewById(R.id.profileLogout)
+        Log.d("ProfileActivity", "=== initViews started ===")
+
+        try {
+            Log.d("ProfileActivity", "Finding tvUserName...")
+            tvUserName = findViewById(R.id.tvUserName)
+            Log.d("ProfileActivity", "tvUserName found: ${tvUserName != null}, type: ${tvUserName::class.java.simpleName}")
+
+            Log.d("ProfileActivity", "Finding tvJoinDate...")
+            tvJoinDate = findViewById(R.id.tvJoinDate)
+            Log.d("ProfileActivity", "tvJoinDate found: ${tvJoinDate != null}, type: ${tvJoinDate::class.java.simpleName}")
+
+            Log.d("ProfileActivity", "Finding tvEmail...")
+            tvEmail = findViewById(R.id.tvEmail)
+            Log.d("ProfileActivity", "tvEmail found: ${tvEmail != null}, type: ${tvEmail::class.java.simpleName}")
+
+            Log.d("ProfileActivity", "Finding ivAvatar...")
+            ivAvatar = findViewById(R.id.ivAvatar)
+            Log.d("ProfileActivity", "ivAvatar found: ${ivAvatar != null}, type: ${ivAvatar::class.java.simpleName}")
+
+            Log.d("ProfileActivity", "Finding tvChangeAvatar...")
+            tvChangeAvatar = findViewById(R.id.tvChangeAvatar)
+            Log.d("ProfileActivity", "tvChangeAvatar found: ${tvChangeAvatar != null}, type: ${tvChangeAvatar::class.java.simpleName}")
+
+            Log.d("ProfileActivity", "Finding tvChangePassword...")
+            tvChangePassword = findViewById(R.id.tvChangePassword)
+            Log.d("ProfileActivity", "tvChangePassword found: ${tvChangePassword != null}, type: ${tvChangePassword::class.java.simpleName}")
+
+            Log.d("ProfileActivity", "Finding profileLogout...")
+            tLogout = findViewById(R.id.profileLogout)
+            Log.d("ProfileActivity", "profileLogout found: ${tLogout != null}, type: ${tLogout::class.java.simpleName}")
+
+            Log.d("ProfileActivity", "=== All views initialized successfully ===")
+
+        } catch (e: Exception) {
+            Log.e("ProfileActivity", "ERROR in initViews: ${e.message}", e)
+            e.printStackTrace()
+            Toast.makeText(this, "Ошибка загрузки интерфейса: ${e.message}", Toast.LENGTH_LONG).show()
+
+            // Показываем, какой элемент вызывает проблему
+            val problematicElement = when {
+                !::tvUserName.isInitialized -> "tvUserName"
+                !::tvJoinDate.isInitialized -> "tvJoinDate"
+                !::tvEmail.isInitialized -> "tvEmail"
+                !::ivAvatar.isInitialized -> "ivAvatar"
+                !::tvChangeAvatar.isInitialized -> "tvChangeAvatar"
+                !::tvChangePassword.isInitialized -> "tvChangePassword"
+                !::tLogout.isInitialized -> "profileLogout"
+                else -> "unknown"
+            }
+            Log.e("ProfileActivity", "Problematic element: $problematicElement")
+
+        }
     }
 
     private fun loadUserData() {
-        val name = sharedPreferences.getString("user_name", "Иван Иванов")
-        val joinDate = sharedPreferences.getString("join_date", "Присоединился в июле 2024")
-        val email = sharedPreferences.getString("user_email", "ivanov@mtuci.ru") // Изменено с "email" на "user_email"
+        Log.d("ProfileActivity", "=== loadUserData started ===")
+        try {
+            val name = sharedPreferences.getString("user_name", "Иван Иванов")
+            val joinDate = sharedPreferences.getString("join_date", "Присоединился в июле 2024")
+            val email = sharedPreferences.getString("user_email", "ivanov@mtuci.ru")
 
-        tvUserName.text = name
-        tvJoinDate.text = joinDate
-        tvEmail.text = email
+            Log.d("ProfileActivity", "Data: name=$name, joinDate=$joinDate, email=$email")
 
-        // Загрузка аватара
-        loadAvatarFromStorage()
+            tvUserName.text = name
+            tvJoinDate.text = joinDate
+            tvEmail.text = email
+
+            loadAvatarFromStorage()
+
+            Log.d("ProfileActivity", "=== User data loaded successfully ===")
+        } catch (e: Exception) {
+            Log.e("ProfileActivity", "ERROR in loadUserData: ${e.message}", e)
+        }
     }
 
     private fun loadAvatarFromStorage() {
@@ -89,7 +145,6 @@ class ProfileActivity : AppCompatActivity() {
             outputStream.flush()
             outputStream.close()
 
-            // Также сохраняем в SharedPreferences флаг о наличии аватара
             val editor = sharedPreferences.edit()
             editor.putBoolean("has_avatar", true)
             editor.apply()
@@ -99,23 +154,24 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun setupClickListeners() {
-        // Изменение аватара
+        Log.d("ProfileActivity", "=== setupClickListeners started ===")
+
         tvChangeAvatar.setOnClickListener {
+            Log.d("ProfileActivity", "Change avatar clicked")
             showAvatarSelectionDialog()
         }
 
-        // Изменение пароля
         tvChangePassword.setOnClickListener {
-            // TODO: Переход на экран смены пароля
-            // val intent = Intent(this, ChangePasswordActivity::class.java)
-            // startActivity(intent)
+            Log.d("ProfileActivity", "Change password clicked")
             Toast.makeText(this, "Смена пароля???", Toast.LENGTH_SHORT).show()
         }
 
-        // Выход из профиля
-        btnLogout.setOnClickListener {
+        tLogout.setOnClickListener {
+            Log.d("ProfileActivity", "Logout clicked")
             clearUserData()
         }
+
+        Log.d("ProfileActivity", "=== Click listeners set up ===")
     }
 
     private fun showAvatarSelectionDialog() {
@@ -223,7 +279,6 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun clearUserData() {
-        // Показываем диалог подтверждения
         androidx.appcompat.app.AlertDialog.Builder(this)
             .setTitle("Выход из профиля")
             .setMessage("Вы уверены, что хотите выйти?")
@@ -238,15 +293,12 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun performLogout() {
-        // Очищаем данные авторизации
         val editor = sharedPreferences.edit()
-        editor.putBoolean("is_logged_in", false) // Важно: меняем на false
+        editor.putBoolean("is_logged_in", false)
         editor.remove("user_email")
         editor.remove("user_name")
-        // Не удаляем все данные, чтобы сохранить настройки
         editor.apply()
 
-        // Удаляем файл аватара (опционально)
         val avatarFile = File(filesDir, "user_avatar.jpg")
         if (avatarFile.exists()) {
             avatarFile.delete()
@@ -254,9 +306,7 @@ class ProfileActivity : AppCompatActivity() {
 
         Toast.makeText(this, "Вы вышли из профиля", Toast.LENGTH_SHORT).show()
 
-        // Переходим на экран логина
         val intent = Intent(this, LoginActivity::class.java)
-        // Очищаем стек активностей, чтобы нельзя было вернуться назад
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
         finish()

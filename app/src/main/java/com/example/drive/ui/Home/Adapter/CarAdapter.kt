@@ -34,7 +34,8 @@ class CarAdapter(
 
         fun bind(car: Car) {
             with(binding) {
-                // Загружаем изображение из ресурсов
+
+                // Загрузка изображения из ресурсов
                 if (car.imageResId != 0) {
                     Glide.with(root.context)
                         .load(car.imageResId)

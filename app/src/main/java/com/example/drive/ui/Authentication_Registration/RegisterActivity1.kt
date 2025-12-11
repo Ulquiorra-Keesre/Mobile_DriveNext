@@ -99,14 +99,12 @@ class RegisterActivity1 : AppCompatActivity() {
     }
 
     private fun performRegistration(email: String, password: String) {
-        // TODO: отправка данных на сервер
         Toast.makeText(this, "Регистрация: $email", Toast.LENGTH_SHORT).show()
-        // После успешной регистрации:
-        // 1. Сохранить токен
-        // 2. Перейти на HomeActivity
-        // 3. Закрыть RegisterActivity
-        startActivity(Intent(this, RegisterActivity2::class.java))
 
+        val intent = Intent(this, RegisterActivity2::class.java)
+        intent.putExtra("email", email)      // ← Передаем email
+        intent.putExtra("password", password) // ← Передаем пароль
+        startActivity(intent)
     }
 
     private fun isNetworkAvailable(): Boolean {

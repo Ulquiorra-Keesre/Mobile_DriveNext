@@ -8,7 +8,6 @@
     android:background="#F5F5F5"
     tools:context=".ui.Home.HomeActivity">
 
-    <!-- Search View -->
     <androidx.appcompat.widget.SearchView
         android:id="@+id/searchView"
         android:layout_width="0dp"
@@ -34,7 +33,6 @@
         android:layout_marginTop="5dp"
         android:layout_marginLeft="24dp"/>
 
-    <!-- RecyclerView для списка автомобилей -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="0dp"
@@ -47,7 +45,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/search_title" />
 
-    <!-- ProgressBar при загрузке (старый, локальный) -->
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
@@ -58,7 +55,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/recyclerView" />
 
-    <!-- Сообщение об ошибке (старое, локальное) -->
     <TextView
         android:id="@+id/errorTextView"
         android:layout_width="wrap_content"
@@ -71,7 +67,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/recyclerView" />
 
-    <!-- Сообщение, если нет результатов -->
     <LinearLayout
         android:id="@+id/noResultsLayout"
         android:layout_width="wrap_content"
@@ -125,7 +120,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <!-- Контейнер для состояний (загрузка/ошибка) - ПОЛНОЭКРАННЫЙ -->
     <FrameLayout
         android:id="@+id/stateContainer"
         android:layout_width="0dp"

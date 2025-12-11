@@ -14,9 +14,9 @@ data class Car(
     val transmission: String,       // "Автомат", "Механика", "Робот", "Вариатор"
     val seats: Int,
     val engineVolume: String? = null,
-    val power: Int? = null,         // лошадиные силы
+    val power: Int? = null,
     val color: String? = null,
-    val imageResId: Int = 0,        // ID ресурса в R.drawable.*
+    val imageResId: Int = 0,
     val isAvailable: Boolean = true,
     val rating: Float = 4.5f,
     val description: String = ""
@@ -24,7 +24,7 @@ data class Car(
 
     fun getFullName(): String = "$brand $model"
 
-    fun getPriceFormatted(): String = "%,.0f ₽/сут.".format(pricePerDay)
+    fun getPriceFormatted(): String = "%,.0f₽ в день".format(pricePerDay)
 
     fun getSpecs(): String = "$fuelType • $transmission • $seats мест"
 

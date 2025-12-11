@@ -29,8 +29,11 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        // Инициализация SharedPreferences
-        sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE)
+        val sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+//        editor.putString("user_name", "Иван Иванов")
+//        editor.putString("user_email", "ivan@mtuci.ru")
+//        editor.apply()
 
         initViews()
         setupClickListeners()

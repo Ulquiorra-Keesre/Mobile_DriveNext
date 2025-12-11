@@ -334,11 +334,24 @@ class RegisterActivity3 : AppCompatActivity() {
     }
 
     private fun performRegistration(licenseNumber: String, issueDate: String) {
-        // TODO: отправка данных на сервер
         Toast.makeText(this, "Регистрация завершена!", Toast.LENGTH_SHORT).show()
 
-        // Переход на главный экран
-        startActivity(Intent(this, CongratulationsActivity::class.java))
+        val intent = Intent(this, CongratulationsActivity::class.java)
+
+        // Передаем ВСЕ накопленные данные
+        intent.putExtra("email", intent.getStringExtra("email") ?: "")
+        intent.putExtra("password", intent.getStringExtra("password") ?: "")
+        intent.putExtra("last_name", intent.getStringExtra("last_name") ?: "")
+        intent.putExtra("first_name", intent.getStringExtra("first_name") ?: "")
+        intent.putExtra("middle_name", intent.getStringExtra("middle_name") ?: "")
+        intent.putExtra("dob", intent.getStringExtra("dob") ?: "")
+        intent.putExtra("gender", intent.getStringExtra("gender") ?: "")
+
+        // Добавляем данные из текущего экрана
+        intent.putExtra("license_number", licenseNumber)
+        intent.putExtra("issue_date", issueDate)
+
+        startActivity(intent)
         finish()
     }
 

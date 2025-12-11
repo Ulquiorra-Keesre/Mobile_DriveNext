@@ -8,7 +8,6 @@ import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.drive.databinding.ActivityHomeBinding
@@ -27,7 +26,6 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var carAdapter: CarAdapter
     private var currentQuery: String = ""
 
-    // Правильное создание ViewModel с фабрикой
     private val viewModel: HomeViewModel by viewModels {
         HomeViewModelFactory(application as com.example.drive.DriveApp)
     }
@@ -35,12 +33,10 @@ class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Быстрая проверка авторизации
         val sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE)
         val isLoggedIn = sharedPreferences.getBoolean("is_logged_in", false)
 
         if (!isLoggedIn) {
-            // Если не авторизован, отправляем на логин
             val intent = Intent(this, com.example.drive.ui.Authentication_Registration.LoginActivity::class.java)
             startActivity(intent)
             finish()
@@ -55,7 +51,6 @@ class HomeActivity : AppCompatActivity() {
         setupBottomNavigation()
         setupObservers()
 
-        // Загружаем данные при запуске
         viewModel.loadCars()
     }
 
@@ -113,19 +108,15 @@ class HomeActivity : AppCompatActivity() {
             viewModel.cars.collectLatest { cars ->
                 carAdapter.submitList(cars)
 
-                // Показываем основной контент когда данные загружены
                 showContentState()
 
                 if (cars.isEmpty()) {
                     if (currentQuery.isNotEmpty()) {
-                        // Показываем сообщение о пустом поиске
                         binding.noResultsLayout.visibility = View.VISIBLE
                         binding.recyclerView.visibility = View.GONE
-                        // Настраиваем текст
                         binding.noResultsTitle.text = "По запросу \"$currentQuery\" ничего не найдено"
                         binding.noResultsSubtitle.text = "Попробуйте изменить запрос поиска"
                     } else {
-                        // Показываем общее сообщение о пустом списке
                         binding.noResultsLayout.visibility = View.VISIBLE
                         binding.recyclerView.visibility = View.GONE
                         binding.noResultsTitle.text = "Автомобили не найдены"
@@ -151,7 +142,6 @@ class HomeActivity : AppCompatActivity() {
                 error?.let {
                     showErrorState(it)
                 } ?: run {
-                    // Если ошибка исчезла и не загружаем, показываем контент
                     if (!viewModel.isLoading.value) {
                         showContentState()
                     }
@@ -161,14 +151,11 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun showLoadingState() {
-        // Очищаем контейнер состояний
         binding.stateContainer.removeAllViews()
 
-        // Загружаем и добавляем layout загрузки
         val loadingView = LayoutInflater.from(this).inflate(R.layout.loading, null)
         binding.stateContainer.addView(loadingView)
 
-        // Настраиваем тексты
         loadingView.findViewById<TextView>(R.id.loadingText)?.text =
             if (currentQuery.isNotEmpty()) {
                 "Ищем по запросу: \"$currentQuery\""
@@ -176,33 +163,26 @@ class HomeActivity : AppCompatActivity() {
                 "Ищем подходящие автомобили"
             }
 
-        // Показываем контейнер состояний
         binding.stateContainer.visibility = View.VISIBLE
 
-        // Скрываем основной контент
         binding.recyclerView.visibility = View.GONE
         binding.noResultsLayout.visibility = View.GONE
         binding.searchView.visibility = View.GONE
         binding.searchTitle.visibility = View.GONE
         binding.bottomNavigation.visibility = View.GONE
 
-        // Скрываем старые элементы
         binding.progressBar.visibility = View.GONE
         binding.errorTextView.visibility = View.GONE
     }
 
     private fun showErrorState(errorMessage: String) {
-        // Очищаем контейнер состояний
         binding.stateContainer.removeAllViews()
 
-        // Загружаем и добавляем layout ошибки
         val errorView = LayoutInflater.from(this).inflate(R.layout.error, null)
         binding.stateContainer.addView(errorView)
 
-        // Настраиваем сообщение об ошибке
         errorView.findViewById<TextView>(R.id.errorMessage).text = errorMessage
 
-        // Настраиваем кнопку повтора
         errorView.findViewById<android.widget.Button>(R.id.retryButton).setOnClickListener {
             if (currentQuery.isNotEmpty()) {
                 viewModel.searchCars(currentQuery)
@@ -211,32 +191,26 @@ class HomeActivity : AppCompatActivity() {
             }
         }
 
-        // Показываем контейнер состояний
         binding.stateContainer.visibility = View.VISIBLE
 
-        // Скрываем основной контент
         binding.recyclerView.visibility = View.GONE
         binding.noResultsLayout.visibility = View.GONE
         binding.searchView.visibility = View.GONE
         binding.searchTitle.visibility = View.GONE
         binding.bottomNavigation.visibility = View.GONE
 
-        // Скрываем старые элементы
         binding.progressBar.visibility = View.GONE
         binding.errorTextView.visibility = View.GONE
     }
 
     private fun showContentState() {
-        // Скрываем контейнер состояний
         binding.stateContainer.visibility = View.GONE
 
-        // Показываем основной контент
         binding.recyclerView.visibility = View.VISIBLE
         binding.searchView.visibility = View.VISIBLE
         binding.searchTitle.visibility = View.VISIBLE
         binding.bottomNavigation.visibility = View.VISIBLE
 
-        // Скрываем старые элементы
         binding.progressBar.visibility = View.GONE
         binding.errorTextView.visibility = View.GONE
     }
