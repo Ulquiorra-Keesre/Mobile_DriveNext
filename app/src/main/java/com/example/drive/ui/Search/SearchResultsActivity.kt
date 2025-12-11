@@ -38,7 +38,6 @@ class SearchResultsActivity : AppCompatActivity() {
         setupRecyclerView()
         setupObservers()
 
-        // Получаем поисковый запрос из Intent
         currentQuery = intent.getStringExtra("search_query") ?: ""
         if (currentQuery.isNotEmpty()) {
             performSearch(currentQuery)
@@ -46,7 +45,6 @@ class SearchResultsActivity : AppCompatActivity() {
     }
 
     private fun setupHeader() {
-        // Настройка кнопки назад
         binding.backButton.setOnClickListener {
             onBackPressed()
         }
@@ -82,10 +80,8 @@ class SearchResultsActivity : AppCompatActivity() {
             viewModel.cars.collectLatest { cars ->
                 adapter.submitList(cars)
 
-                // Обновляем статус
                 updateSearchStatus(cars.size)
 
-                // Показываем/скрываем сообщение о пустом результате
                 if (cars.isEmpty()) {
                     binding.noResultsLayout.visibility = View.VISIBLE
                     binding.recyclerView.visibility = View.GONE
@@ -94,7 +90,6 @@ class SearchResultsActivity : AppCompatActivity() {
                     binding.recyclerView.visibility = View.VISIBLE
                 }
 
-                // Показываем основной контент когда данные загружены
                 showContentState()
             }
         }
@@ -112,7 +107,6 @@ class SearchResultsActivity : AppCompatActivity() {
                 error?.let {
                     showErrorState(it)
                 } ?: run {
-                    // Если ошибка исчезла и не загружаем, показываем контент
                     if (!viewModel.isLoading.value) {
                         showContentState()
                     }
@@ -139,14 +133,11 @@ class SearchResultsActivity : AppCompatActivity() {
     }
 
     private fun showLoadingState() {
-        // Очищаем контейнер состояний
         binding.stateContainer.removeAllViews()
 
-        // Загружаем и добавляем layout загрузки
         val loadingView = LayoutInflater.from(this).inflate(R.layout.loading, null)
         binding.stateContainer.addView(loadingView)
 
-        // Настраиваем тексты
         loadingView.findViewById<android.widget.TextView>(R.id.loadingText)?.text =
             if (currentQuery.isNotEmpty()) {
                 "Ищем по запросу: \"$currentQuery\""
@@ -154,10 +145,10 @@ class SearchResultsActivity : AppCompatActivity() {
                 "Загружаем автомобили..."
             }
 
-        // Показываем контейнер состояний
+        // Kонтейнер состояний
         binding.stateContainer.visibility = View.VISIBLE
 
-        // Скрываем основной контент
+        // Oсновной контент
         binding.recyclerView.visibility = View.GONE
         binding.noResultsLayout.visibility = View.GONE
         binding.searchStatusTextView.visibility = View.GONE
@@ -165,17 +156,13 @@ class SearchResultsActivity : AppCompatActivity() {
     }
 
     private fun showErrorState(errorMessage: String) {
-        // Очищаем контейнер состояний
         binding.stateContainer.removeAllViews()
 
-        // Загружаем и добавляем layout ошибки
         val errorView = LayoutInflater.from(this).inflate(R.layout.error, null)
         binding.stateContainer.addView(errorView)
 
-        // Настраиваем сообщение об ошибке
         errorView.findViewById<android.widget.TextView>(R.id.errorMessage).text = errorMessage
 
-        // Настраиваем кнопку повтора
         errorView.findViewById<android.widget.Button>(R.id.retryButton).setOnClickListener {
             performSearch(currentQuery)
         }
@@ -191,15 +178,12 @@ class SearchResultsActivity : AppCompatActivity() {
     }
 
     private fun showContentState() {
-        // Скрываем контейнер состояний
         binding.stateContainer.visibility = View.GONE
 
-        // Показываем основной контент
         binding.recyclerView.visibility = View.VISIBLE
         binding.searchStatusTextView.visibility = View.VISIBLE
         binding.headerLayout.visibility = View.VISIBLE
 
-        // Прогресс бар скрываем
         binding.progressBar.visibility = View.GONE
     }
 

@@ -6,9 +6,12 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
 import android.widget.ImageView
+import android.widget.ImageButton
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import com.example.drive.R
+import com.example.drive.databinding.ActivitySearchResultsBinding
 import com.example.drive.ui.BecomeHostActivity
 import com.example.drive.ui.Home.HomeActivity
 import com.example.drive.ui.Profile.ProfileActivity
@@ -16,11 +19,12 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class SettingsActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivitySearchResultsBinding
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var tvUserName: TextView
     private lateinit var tvEmail: TextView
     private lateinit var profileBtn: ImageView
-    private lateinit var hostBtn: ImageView
+    private lateinit var hostBtn: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -99,6 +103,6 @@ class SettingsActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        loadUserData() // Обновляем данные при возвращении на экран
+        loadUserData() 
     }
 }
