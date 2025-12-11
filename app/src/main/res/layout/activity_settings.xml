@@ -106,11 +106,11 @@
                     </LinearLayout>
 
                     <!-- Стрелка -->
-                    <ImageView
+                    <Button
                         android:id="@+id/btn_toProfile"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/arrow_forward"
+                        android:background="@drawable/arrow_forward"
                         android:contentDescription="arrow_forward"
                         android:clickable="true"
                         android:focusable="true"/>
@@ -313,7 +313,7 @@
                             android:id="@+id/btn_toHost"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:src="@drawable/arrow_forward"
+                            android:background="@drawable/arrow_forward"
                             android:contentDescription="arrow_forward"
                             android:clickable="true"
                             android:focusable="true"/>

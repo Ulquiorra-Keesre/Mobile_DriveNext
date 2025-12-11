@@ -23,7 +23,7 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var tvUserName: TextView
     private lateinit var tvEmail: TextView
-    private lateinit var profileBtn: ImageView
+    private lateinit var profileBtn: Button
     private lateinit var hostBtn: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -103,6 +103,6 @@ class SettingsActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        loadUserData() 
+        loadUserData()
     }
 }

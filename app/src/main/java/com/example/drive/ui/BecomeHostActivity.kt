@@ -20,11 +20,9 @@ class BecomeHostActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityBecomehostBinding.inflate(layoutInflater)
-        setContentView(R.layout.activity_becomehost)
+        setContentView(binding.root)
 
-        // Настройка ActionBar (кнопка назад)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = "Стать арендодателем"
+
 
         initViews()
         setupHeader()

@@ -19,6 +19,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.drive.R
 import com.example.drive.ui.Authentication_Registration.LoginActivity
+import com.example.drive.ui.Home.HomeActivity
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.io.File
 import java.io.FileOutputStream
 
@@ -28,7 +30,7 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var tvJoinDate: TextView
     private lateinit var tvEmail: TextView
     private lateinit var ivAvatar: ImageView
-    private lateinit var tvChangeAvatar: TextView
+    private lateinit var tvChangeAvatar: ImageView
     private lateinit var tvChangePassword: TextView
     private lateinit var tLogout: TextView
     private lateinit var sharedPreferences: SharedPreferences
@@ -49,6 +51,7 @@ class ProfileActivity : AppCompatActivity() {
         initViews()
         loadUserData()
         setupClickListeners()
+        setupBottomNavigation()
 
         Log.d("ProfileActivity", "=== onCreate completed ===")
     }
@@ -310,6 +313,32 @@ class ProfileActivity : AppCompatActivity() {
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
         finish()
+    }
+
+
+    private fun setupBottomNavigation() {
+        val bottomNavigation = findViewById<BottomNavigationView>(R.id.bottomNavigation)
+        bottomNavigation.selectedItemId = R.id.navigation_settings
+
+        bottomNavigation.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.navigation_home -> {
+                    val intent = Intent(this, HomeActivity::class.java)
+                    startActivity(intent)
+                    overridePendingTransition(0, 0)
+                    finish()
+                    true
+                }
+                R.id.navigation_bookings -> {
+                    // TODO: Переход на BookingsActivity
+                    true
+                }
+                R.id.navigation_settings -> {
+                    true
+                }
+                else -> false
+            }
+        }
     }
 
     override fun onResume() {

@@ -24,7 +24,6 @@ class SearchResultsActivity : AppCompatActivity() {
     private lateinit var adapter: CarAdapter
     private var currentQuery: String = ""
 
-    // Используем фабрику для ViewModel
     private val viewModel: HomeViewModel by viewModels {
         HomeViewModelFactory(application as com.example.drive.DriveApp)
     }
