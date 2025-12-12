@@ -17,7 +17,7 @@ import com.example.drive.R
 
 @Database(
     entities = [Car::class, User::class],
-    version = 2, // Увеличена версия
+    version = 2,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -71,10 +71,9 @@ abstract class AppDatabase : RoomDatabase() {
             )
             db.userDao().insertUser(testUser)
 
-            // ВАЖНО: Установите id = 0 для автоинкремента!
             val cars = listOf(
                 Car(
-                    id = 0, // ← ИЗМЕНИТЕ НА 0 для автоинкремента!
+                    id = 0,
                     brand = "Ferrari",
                     model = "Camry",
                     pricePerDay = 2500.0,
@@ -88,7 +87,7 @@ abstract class AppDatabase : RoomDatabase() {
                     photoUrl = ""
                 ),
                 Car(
-                    id = 0, // ← ИЗМЕНИТЕ НА 0 для автоинкремента!
+                    id = 0,
                     brand = "Porshe",
                     model = "X5",
                     pricePerDay = 5000.0,
@@ -102,7 +101,7 @@ abstract class AppDatabase : RoomDatabase() {
                     photoUrl = ""
                 ),
                 Car(
-                    id = 0, // ← ИЗМЕНИТЕ НА 0 для автоинкремента!
+                    id = 0,
                     brand = "Posche",
                     model = "C-Class",
                     pricePerDay = 4000.0,
@@ -116,7 +115,7 @@ abstract class AppDatabase : RoomDatabase() {
                     photoUrl = ""
                 ),
                 Car(
-                    id = 0, // ← ИЗМЕНИТЕ НА 0 для автоинкремента!
+                    id = 0,
                     brand = "Ferrari",
                     model = "A4",
                     pricePerDay = 3500.0,
@@ -130,7 +129,7 @@ abstract class AppDatabase : RoomDatabase() {
                     photoUrl = ""
                 ),
                 Car(
-                    id = 0, // ← ИЗМЕНИТЕ НА 0 для автоинкремента!
+                    id = 0,
                     brand = "Ferrari",
                     model = "Rio",
                     pricePerDay = 1800.0,
