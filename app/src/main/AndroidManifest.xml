@@ -48,7 +48,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:testOnly="true"
-        android:theme="@style/Theme.Drive" >
+        android:theme="@style/Theme.Drive"
+        android:requestLegacyExternalStorage="true"
+        >
 
         <!-- SplashActivity — точка входа -->
         <activity
@@ -114,6 +116,23 @@
         <activity
             android:name="com.example.drive.ui.AddCar1Activity"
             android:exported="false" />
+
+        <activity
+            android:name="com.example.drive.ui.AddCar2Activity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name="com.example.drive.ui.CarPhotosActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name="com.example.drive.ui.SuccessActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            />
+
 
         <!-- FileProvider для работы с файлами и камерой -->
         <provider

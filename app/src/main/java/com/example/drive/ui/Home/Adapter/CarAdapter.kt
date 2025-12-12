@@ -46,7 +46,7 @@ class CarAdapter(
                 brandTextView.text = car.brand
                 modelTextView.text = car.model
                 priceTextView.text = car.getPriceFormatted()
-                specsTextView.text = "${car.fuelType} • ${car.transmission} • ${car.seats} мест • ${car.year} г."
+                specsTextView.text = "${car.transmission} • ${car.fuelType}"
 
 
                 // Кнопки

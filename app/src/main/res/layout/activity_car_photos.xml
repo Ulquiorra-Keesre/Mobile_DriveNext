@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white">
+    android:background="@android:color/white"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -11,13 +13,13 @@
         android:orientation="vertical"
         android:padding="20dp">
 
+        <!-- Шапка -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="24dp">
 
             <!-- Стрелка назад -->
             <ImageView
@@ -25,11 +27,11 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/arrow_left"
-                android:contentDescription="return_to_home"
+                android:contentDescription="Назад"
                 app:tint="#000000"
-                android:padding="4dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="20dp"/>
+                android:padding="4dp" />
+
+            <!-- Заголовок -->
 
             <TextView
                 android:layout_width="wrap_content"
@@ -38,16 +40,237 @@
                 android:textColor="#101828"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:layout_marginTop="17dp"
-                android:layout_marginLeft="40dp"
-                android:fontFamily="@font/montserrat_regular"/>
+                android:fontFamily="@font/montserrat_regular"
+                android:layout_marginStart="7dp"/>
 
         </LinearLayout>
 
 
+        <!-- Заголовок -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Добавьте фотографии вашего автомобиля"
+            android:textColor="#101828"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/montserrat_regular" />
 
+        <!-- Подсказка -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Можно добавить до 5 фотографий. Рекомендуем добавить фото с разных ракурсов."
+            android:textColor="#667085"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:layout_marginBottom="32dp"
+            android:fontFamily="@font/montserrat_regular" />
 
-        <!-- Кнопка Начать -->
+        <!-- Контейнер для фотографий (GridLayout) -->
+        <GridLayout
+            android:id="@+id/photosContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="3"
+            android:rowCount="2"
+            android:alignmentMode="alignBounds"
+            android:columnOrderPreserved="false"
+            android:layout_marginBottom="32dp">
+
+            <!-- Место для фото 1 -->
+            <FrameLayout
+                android:id="@+id/photoContainer1"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_margin="8dp"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:background="@drawable/gray_placeholder">
+
+                <ImageView
+                    android:id="@+id/photo1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:visibility="gone" />
+
+                <!-- Кнопка удаления -->
+                <ImageView
+                    android:id="@+id/deletePhoto1"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/red_cross"
+                    android:layout_gravity="top|end"
+                    android:layout_margin="8dp"
+                    android:visibility="gone"
+                    android:contentDescription="Удалить фото" />
+
+                <!-- Иконка плюс для пустого слота -->
+                <ImageView
+                    android:id="@+id/addIcon1"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/plus2"
+                    android:layout_gravity="center"
+                    android:visibility="visible" />
+            </FrameLayout>
+
+            <!-- Место для фото 2 -->
+            <FrameLayout
+                android:id="@+id/photoContainer2"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_margin="8dp"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:background="@drawable/gray_placeholder"
+                android:visibility="visible">
+
+                <ImageView
+                    android:id="@+id/photo2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/deletePhoto2"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/red_cross"
+                    android:layout_gravity="top|end"
+                    android:layout_margin="8dp"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/addIcon2"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/plus2"
+                    android:layout_gravity="center"
+                    android:visibility="visible" />
+            </FrameLayout>
+
+            <!-- Место для фото 3 -->
+            <FrameLayout
+                android:id="@+id/photoContainer3"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_margin="8dp"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:background="@drawable/gray_placeholder"
+                android:visibility="visible">
+
+                <ImageView
+                    android:id="@+id/photo3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/deletePhoto3"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/red_cross"
+                    android:layout_gravity="top|end"
+                    android:layout_margin="8dp"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/addIcon3"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/plus2"
+                    android:layout_gravity="center"
+                    android:visibility="visible" />
+            </FrameLayout>
+
+            <!-- Место для фото 4 -->
+            <FrameLayout
+                android:id="@+id/photoContainer4"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_margin="8dp"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:background="@drawable/gray_placeholder"
+                android:visibility="visible">
+
+                <ImageView
+                    android:id="@+id/photo4"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/deletePhoto4"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/red_cross"
+                    android:layout_gravity="top|end"
+                    android:layout_margin="8dp"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/addIcon4"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/plus2"
+                    android:layout_gravity="center"
+                    android:visibility="visible" />
+            </FrameLayout>
+
+            <!-- Место для фото 5 -->
+            <FrameLayout
+                android:id="@+id/photoContainer5"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_margin="8dp"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:background="@drawable/gray_placeholder"
+                android:visibility="visible">
+
+                <ImageView
+                    android:id="@+id/photo5"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/deletePhoto5"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/red_cross"
+                    android:layout_gravity="top|end"
+                    android:layout_margin="8dp"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/addIcon5"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/plus2"
+                    android:layout_gravity="center"
+                    android:visibility="visible" />
+            </FrameLayout>
+
+        </GridLayout>
+
+        <!-- Заполнитель для размещения кнопки внизу -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <!-- Кнопка Далее -->
         <Button
             android:id="@+id/btn_toSuccess"
             android:layout_width="match_parent"
@@ -56,15 +279,13 @@
             android:textColor="#FFFFFF"
             android:textSize="14sp"
             android:textStyle="bold"
-            android:backgroundTint="#2A1246"
+            android:backgroundTint="#CCCCCC"
+            android:enabled="false"
             android:layout_marginBottom="20dp"
             android:letterSpacing="0.02"
             android:paddingVertical="12dp"
             android:fontFamily="@font/montserrat_regular"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="515dp"/>
+            />
 
     </LinearLayout>
 </ScrollView>

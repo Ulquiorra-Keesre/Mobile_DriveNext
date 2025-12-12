@@ -39,4 +39,13 @@ class CarRepository(
             carDao.updateCar(it.copy(isAvailable = true))
         }
     }
+
+    suspend fun addCar(car: Car): Long {
+        return carDao.insertCar(car)
+    }
+
+    suspend fun updateCar(car: Car) {
+        carDao.updateCar(car)
+    }
+
 }

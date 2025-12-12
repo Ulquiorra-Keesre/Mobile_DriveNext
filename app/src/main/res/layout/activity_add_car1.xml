@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white">
+    android:background="@android:color/white"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -11,43 +13,79 @@
         android:orientation="vertical"
         android:padding="20dp">
 
+        <!-- Шапка с кнопкой назад -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:layout_marginBottom="24dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:gravity="center_vertical">
 
-            <!-- Стрелка назад -->
             <ImageView
                 android:id="@+id/backButton"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/arrow_left"
-                android:contentDescription="return_to_home"
+                android:contentDescription="Назад"
                 app:tint="#000000"
-                android:padding="4dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="20dp"/>
+                android:padding="4dp" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="Добавление автомобиля"
                 android:textColor="#101828"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:layout_marginTop="17dp"
-                android:layout_marginLeft="40dp"
-                android:fontFamily="@font/montserrat_regular"/>
-
+                android:gravity="center"
+                android:fontFamily="@font/montserrat_regular" />
         </LinearLayout>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Где расположен ваш автомобиль?"
+            android:textColor="#404040"
+            android:textSize="14sp"
+            android:layout_marginBottom="7dp"
+            android:fontFamily="@font/montserrat_regular" />
 
 
+        <!-- Поле ввода адреса -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/addressInputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Введите адрес"
+            app:boxStrokeColor="#D0D5DD"
+            app:boxStrokeWidth="1dp"
+            app:boxStrokeWidthFocused="2dp"
+            app:endIconMode="clear_text"
+            app:endIconTint="#667085"
+            android:layout_marginBottom="32dp">
 
-        <!-- Кнопка Начать -->
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapSentences|textMultiLine"
+                android:maxLines="3"
+                android:minLines="1"
+                android:textColor="#101828"
+                android:textSize="16sp"
+                android:fontFamily="@font/montserrat_regular" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Заполнитель для размещения кнопки внизу -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <!-- Кнопка Далее -->
         <Button
             android:id="@+id/btn_toAddCar2"
             android:layout_width="match_parent"
@@ -56,15 +94,12 @@
             android:textColor="#FFFFFF"
             android:textSize="14sp"
             android:textStyle="bold"
-            android:backgroundTint="#2A1246"
-            android:layout_marginBottom="20dp"
+            android:backgroundTint="#CCCCCC"
+            android:enabled="false"
+            android:layout_marginTop="20dp"
             android:letterSpacing="0.02"
             android:paddingVertical="12dp"
-            android:fontFamily="@font/montserrat_regular"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="515dp"/>
+            android:fontFamily="@font/montserrat_regular" />
 
     </LinearLayout>
 </ScrollView>

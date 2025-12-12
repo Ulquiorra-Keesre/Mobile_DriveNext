@@ -68,7 +68,7 @@
                         android:id="@+id/tvChangeAvatar"
                         android:layout_width="20dp"
                         android:layout_height="18.95dp"
-                        android:src="@drawable/plus"
+                        android:src="@drawable/plus2"
                         android:contentDescription="Добавить фото"
                         app:iconSize="2dp"
                         android:layout_marginLeft="187dp"

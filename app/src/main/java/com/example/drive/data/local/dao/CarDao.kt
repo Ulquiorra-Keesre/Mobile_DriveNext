@@ -19,8 +19,9 @@ interface CarDao {
     @Query("SELECT * FROM cars WHERE brand LIKE '%' || :query || '%' OR model LIKE '%' || :query || '%' OR description LIKE '%' || :query || '%'")
     fun searchCars(query: String): Flow<List<Car>>
 
+    // Изменяем этот метод, чтобы он возвращал ID вставленной записи
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertCar(car: Car)
+    suspend fun insertCar(car: Car): Long // Добавляем возврат Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAllCars(cars: List<Car>)

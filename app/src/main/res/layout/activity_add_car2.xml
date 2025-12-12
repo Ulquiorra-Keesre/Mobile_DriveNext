@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white">
+    android:background="@android:color/white"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -11,13 +12,13 @@
         android:orientation="vertical"
         android:padding="20dp">
 
+        <!-- Шапка -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="24dp">
 
             <!-- Стрелка назад -->
             <ImageView
@@ -25,11 +26,11 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/arrow_left"
-                android:contentDescription="return_to_home"
+                android:contentDescription="Назад"
                 app:tint="#000000"
-                android:padding="4dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="20dp"/>
+                android:padding="4dp" />
+
+            <!-- Заголовок -->
 
             <TextView
                 android:layout_width="wrap_content"
@@ -38,16 +39,185 @@
                 android:textColor="#101828"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:layout_marginTop="17dp"
-                android:layout_marginLeft="40dp"
-                android:fontFamily="@font/montserrat_regular"/>
+                android:fontFamily="@font/montserrat_regular"
+                android:layout_marginStart="7dp"/>
+
 
         </LinearLayout>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Год выпуска"
+            android:textColor="#404040"
+            android:textSize="14sp"
+            android:layout_marginBottom="3dp"
+            android:fontFamily="@font/montserrat_regular" />
 
 
 
-        <!-- Кнопка Начать -->
+        <!-- Поле: Год выпуска -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/yearInputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Год"
+            app:boxStrokeColor="#D0D5DD"
+            app:boxStrokeWidthFocused="2dp"
+            android:layout_marginBottom="16dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etYear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLength="4"
+                android:textColor="#101828"
+                android:textSize="16sp"
+                android:fontFamily="@font/montserrat_regular" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Марка автомобиля"
+            android:textColor="#404040"
+            android:textSize="14sp"
+            android:layout_marginBottom="3dp"
+            android:fontFamily="@font/montserrat_regular" />
+
+        <!-- Поле: Марка автомобиля -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/brandInputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Марка"
+            app:boxStrokeColor="#D0D5DD"
+            app:boxStrokeWidthFocused="2dp"
+            android:layout_marginBottom="16dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etBrand"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapWords"
+                android:textColor="#101828"
+                android:textSize="16sp"
+                android:fontFamily="@font/montserrat_regular" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Модель"
+            android:textColor="#404040"
+            android:textSize="14sp"
+            android:layout_marginBottom="3dp"
+            android:fontFamily="@font/montserrat_regular" />
+
+        <!-- Поле: Модель -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/modelInputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Модель"
+            app:boxStrokeColor="#D0D5DD"
+            app:boxStrokeWidthFocused="2dp"
+            android:layout_marginBottom="16dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etModel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapWords"
+                android:textColor="#667085"
+                android:textSize="14sp"
+                android:fontFamily="@font/montserrat_regular" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <!-- Поле: Трансмиссия (выпадающий список) -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/transmissionInputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Трансмиссия"
+            app:boxStrokeColor="#D0D5DD"
+            app:boxStrokeWidthFocused="2dp"
+            android:layout_marginBottom="16dp">
+
+            <AutoCompleteTextView
+                android:id="@+id/autoCompleteTransmission"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:textColor="#667085"
+                android:textSize="14sp"
+                android:fontFamily="@font/montserrat_regular" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Поле: Пробег -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/mileageInputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Пробег (км)"
+            app:boxStrokeColor="#D0D5DD"
+            app:boxStrokeWidthFocused="2dp"
+            android:layout_marginBottom="24dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etMileage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:textColor="#667085"
+                android:textSize="14sp"
+                android:fontFamily="@font/montserrat_regular" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Заголовок для описания -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Добавьте описание"
+            android:textColor="#404040"
+            android:textSize="14sp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/montserrat_regular" />
+
+
+        <!-- Поле: Описание -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/descriptionInputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Пожалуйста, добавьте дополнительную информацию о вашем автомобиле, которая может быть интересна арендатору. Например, о внутреннем оформлении, мощности и других особенностях вашего автомобиля."
+            app:boxStrokeColor="#D0D5DD"
+            app:boxStrokeWidthFocused="2dp"
+            android:layout_marginBottom="32dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etDescription"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:inputType="textCapSentences|textMultiLine"
+                android:gravity="top"
+                android:maxLines="5"
+                android:minLines="3"
+                android:textColor="#101828"
+                android:textSize="14sp"
+                android:fontFamily="@font/montserrat_regular" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Кнопка Отправить -->
         <Button
             android:id="@+id/btn_toCarPhotos"
             android:layout_width="match_parent"
@@ -56,15 +226,12 @@
             android:textColor="#FFFFFF"
             android:textSize="14sp"
             android:textStyle="bold"
-            android:backgroundTint="#2A1246"
+            android:backgroundTint="#CCCCCC"
+            android:enabled="false"
             android:layout_marginBottom="20dp"
             android:letterSpacing="0.02"
             android:paddingVertical="12dp"
-            android:fontFamily="@font/montserrat_regular"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="515dp"/>
+            android:fontFamily="@font/montserrat_regular" />
 
     </LinearLayout>
 </ScrollView>

@@ -5,28 +5,28 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "cars")
 data class Car(
-    @PrimaryKey val id: Int,
+    @PrimaryKey(autoGenerate = true) // ← ДОБАВЬТЕ ЭТО
+    val id: Int = 0, // Теперь можно оставить 0
+
     val brand: String,
     val model: String,
     val pricePerDay: Double,
     val year: Int,
     val fuelType: String,           // "Бензин", "Дизель", "Электро", "Гибрид"
     val transmission: String,       // "Автомат", "Механика", "Робот", "Вариатор"
-    val seats: Int,
-    val engineVolume: String? = null,
-    val power: Int? = null,
-    val color: String? = null,
-    val imageResId: Int = 0,
+    val description: String = "",
+    val mileage: Int,
     val isAvailable: Boolean = true,
-    val rating: Float = 4.5f,
-    val description: String = ""
+    val imageResId: Int = 0,
+    val photoUrl: String = "",
+    val address: String
 ) {
 
-    fun getFullName(): String = "$brand $model"
+    fun getFullName(): String = "$brand \n $model"
 
     fun getPriceFormatted(): String = "%,.0f₽ в день".format(pricePerDay)
 
-    fun getSpecs(): String = "$fuelType • $transmission • $seats мест"
+    fun getSpecs(): String = "$transmission • $fuelType"
 
     fun getYearFormatted(): String = "$year г."
 }
