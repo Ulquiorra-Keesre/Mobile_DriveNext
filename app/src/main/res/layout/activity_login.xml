@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:padding="24dp"
     android:background="@android:color/white"
-    tools:context=".ui.LoginActivity">
+    tools:context=".ui.Authentication_Registration.LoginActivity">
 
     <!-- Заголовок -->
     <TextView
