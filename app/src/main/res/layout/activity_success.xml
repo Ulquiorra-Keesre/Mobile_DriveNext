@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <!-- Стрелка назад -->
+            <ImageView
+                android:id="@+id/backButton"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/arrow_left"
+                android:contentDescription="return_to_home"
+                app:tint="#000000"
+                android:padding="4dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"/>
+
+
+
+        </LinearLayout>
+
+        <!-- Иконка -->
+        <ImageView
+            android:id="@+id/ic_car_success"
+            android:layout_width="365dp"
+            android:layout_height="280dp"
+            android:src="@drawable/car_success"
+
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="0dp" />
+
+        <TextView
+            android:id="@+id/successText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ваш автомобиль добавлен"
+            android:textSize="20sp"
+            android:textColor="#000000"
+            android:fontFamily="@font/montserrat_semi_bold"
+            app:layout_constraintTop_toBottomOf="@id/ic_car_success"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp" />
+
+        <TextView
+            android:id="@+id/under_successText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Поздравляем! Ваш автомобиль добавлен"
+            android:textSize="12sp"
+            android:textColor="#000000"
+            android:fontFamily="@font/montserrat_regular"
+            app:layout_constraintTop_toBottomOf="@id/successText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="8dp" />
+
+
+
+        <Button
+            android:id="@+id/btn_toHome"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="На главную"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:backgroundTint="#2A1246"
+            android:layout_marginBottom="20dp"
+            android:letterSpacing="0.02"
+            android:paddingVertical="12dp"
+            android:fontFamily="@font/montserrat_regular"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="200dp"/>
+
+    </LinearLayout>
+</ScrollView>

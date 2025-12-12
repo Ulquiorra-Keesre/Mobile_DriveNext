@@ -112,7 +112,7 @@
             android:exported="false" />
 
         <activity
-            android:name="com.example.drive.ui.AddCarActivity"
+            android:name="com.example.drive.ui.AddCar1Activity"
             android:exported="false" />
 
         <!-- FileProvider для работы с файлами и камерой -->

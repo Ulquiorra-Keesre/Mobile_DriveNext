@@ -5,17 +5,18 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.example.drive.R
-import com.example.drive.databinding.ActivityBecomeHostBinding
+import com.example.drive.databinding.ActivityAddCar2Binding
+import com.example.drive.ui.CarPhotosActivity
 
+class AddCar2Activity: AppCompatActivity() {
 
-class BecomeHostActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityAddCar2Binding
 
-    private lateinit var binding: ActivityBecomeHostBinding
-    private lateinit var btnStartHosting: Button
+    private lateinit var btn_toCarPhotos: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityBecomeHostBinding.inflate(layoutInflater)
+        binding = ActivityAddCar2Binding.inflate(layoutInflater)
         setContentView(binding.root)
 
 
@@ -26,13 +27,13 @@ class BecomeHostActivity : AppCompatActivity() {
     }
 
     private fun initViews() {
-        btnStartHosting = findViewById(R.id.btnStartHosting)
+        btn_toCarPhotos = findViewById(R.id.btn_toCarPhotos)
     }
 
     private fun setupClickListeners() {
-        // Кнопка переход на экран добавления автомобиля
-        btnStartHosting.setOnClickListener {
-            val intent = Intent(this, AddCar1Activity::class.java)
+
+        btn_toCarPhotos.setOnClickListener {
+            val intent = Intent(this, CarPhotosActivity::class.java)
             startActivity(intent)
         }
     }
@@ -48,6 +49,4 @@ class BecomeHostActivity : AppCompatActivity() {
             onBackPressed()
         }
     }
-
-
 }

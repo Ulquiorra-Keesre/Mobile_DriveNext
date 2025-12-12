@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <!-- Стрелка назад -->
+            <ImageView
+                android:id="@+id/backButton"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/arrow_left"
+                android:contentDescription="return_to_home"
+                app:tint="#000000"
+                android:padding="4dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Добавление автомобиля"
+                android:textColor="#101828"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginTop="17dp"
+                android:layout_marginLeft="40dp"
+                android:fontFamily="@font/montserrat_regular"/>
+
+        </LinearLayout>
+
+
+
+
+        <!-- Кнопка Начать -->
+        <Button
+            android:id="@+id/btn_toAddCar2"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="Далее"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:backgroundTint="#2A1246"
+            android:layout_marginBottom="20dp"
+            android:letterSpacing="0.02"
+            android:paddingVertical="12dp"
+            android:fontFamily="@font/montserrat_regular"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="515dp"/>
+
+    </LinearLayout>
+</ScrollView>
